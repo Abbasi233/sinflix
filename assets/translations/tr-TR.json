@@ -1,0 +1,37 @@
+{
+    "keywords": {
+        "save": "Kaydet",
+        "approve": "Onayla",
+        "cancel": "İptal",
+        "close": "Kapat",
+        "delete": "Sil",
+        "search": "Ara",
+        "email": "E-posta",
+        "phone_number": "Telefon Numarası",
+        "loading": "Yükleniyor...",
+        "loaded": "Yüklendi",
+        "change": "Değiştir",
+        "release_for_load": "Yüklemek için bırak",
+        "end_of_list": "Liste Sonu",
+        "cannot_empty": "Bu alan boş bırakılamaz"
+    },
+    "error": {
+        "error_occurred": "Hata Oluştu",
+        "something_went_wrong": "Bir şeyler ters gitti",
+        "retry": "Tekrar Dene",
+        "network_error_title": "İnternet Bağlantısı Yok",
+        "network_error_message": "Lütfen internet bağlantınızı kontrol edin",
+        "server_error_title": "Sunucu Hatası",
+        "server_error_message": "Bir sunucu hatası oluştu. Lütfen daha sonra tekrar deneyin",
+        "not_found_error_title": "İçerik Bulunamadı",
+        "not_found_error_message": "Aradığınız içerik bulunamadı",
+        "unknown_error_title": "Beklenmedik Hata",
+        "unknown_error_message": "Beklenmedik bir hata oluştu"
+    },
+    "theme": {
+        "title": "Tema",
+        "system_default": "Sistem Varsayılanı",
+        "dark_mode": "Karanlık Mod",
+        "light_mode": "Aydınlık Mod"
+    }
+}

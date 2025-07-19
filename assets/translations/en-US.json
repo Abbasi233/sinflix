@@ -1,0 +1,37 @@
+{
+    "keywords": {
+        "save": "Save",
+        "approve": "Approve",
+        "cancel": "Cancel",
+        "close": "Close",
+        "delete": "Delete",
+        "search": "Search",
+        "email": "E-mail",
+        "phone_number": "Phone Number",
+        "loading": "Loading...",
+        "loaded": "Loaded",
+        "change": "Change",
+        "release_for_load": "Release to load",
+        "end_of_list": "End of list",
+        "cannot_empty": "This field cannot be empty"
+    },
+    "error": {
+        "error_occurred": "Error Occurred",
+        "something_went_wrong": "Something went wrong",
+        "retry": "Retry",
+        "network_error_title": "No Internet Connection",
+        "network_error_message": "Please check your internet connection",
+        "server_error_title": "Server Error",
+        "server_error_message": "A server error occurred. Please try again later",
+        "not_found_error_title": "Content Not Found",
+        "not_found_error_message": "The content you are looking for was not found",
+        "unknown_error_title": "Unexpected Error",
+        "unknown_error_message": "An unexpected error occurred"
+    },
+    "theme": {
+        "title": "Theme",
+        "system_default": "System Default",
+        "dark_mode": "Dark Mode",
+        "light_mode": "Light Mode"
+    }
+}
