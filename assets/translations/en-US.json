@@ -8,6 +8,8 @@
         "search": "Search",
         "email": "E-mail",
         "password": "Password",
+        "full_name": "Full Name",
+        "confirm_password": "Confirm Password",
         "phone_number": "Phone Number",
         "loading": "Loading...",
         "loaded": "Loaded",
@@ -36,9 +38,19 @@
         "light_mode": "Light Mode"
     },
     "login": {
-        "title": "Login"
+        "title": "Login",
+        "greeting": "Hello",
+        "description": "Tempus varius a vitae interdum id tortor elementum tristique eleifend at.",
+        "forgot_password": "Forgot Password",
+        "no_account": "Don't have an account?"
     },
     "register": {
-        "title": "Register"
+        "title": "Register",
+        "greeting": "Welcome",
+        "description": "Tempus varius a vitae interdum id tortor elementum tristique eleifend at.",
+        "have_account": "Already have an account?",
+        "terms_agreement": "I have ",
+        "terms_agreement_bold": "read and agree",
+        "terms_agreement_end": " to the user agreement. Please read this agreement to continue."
     }
 }

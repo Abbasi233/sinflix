@@ -105,10 +105,13 @@ class _AuthRestApi implements AuthRestApi {
   }
 
   @override
-  Future<HttpResponse<BaseResponse<ProfileResponseModel?>?>> profile() async {
+  Future<HttpResponse<BaseResponse<ProfileResponseModel?>?>> profile(
+    String token,
+  ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
     const Map<String, dynamic>? _data = null;
     final _options =
         _setStreamType<HttpResponse<BaseResponse<ProfileResponseModel?>?>>(
@@ -144,11 +147,13 @@ class _AuthRestApi implements AuthRestApi {
 
   @override
   Future<HttpResponse<BaseResponse<UploadPhotoResponseModel?>?>> uploadPhoto(
+    String token,
     File photo,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'Authorization': token};
+    _headers.removeWhere((k, v) => v == null);
     final _data = FormData();
     _data.files.add(
       MapEntry(

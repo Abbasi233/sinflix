@@ -8,12 +8,14 @@ class ProfileResponseModel {
   final String name;
   final String email;
   final String photoUrl;
+  final String token;
 
   ProfileResponseModel({
     required this.id,
     required this.name,
     required this.email,
     required this.photoUrl,
+    required this.token,
   });
 
   factory ProfileResponseModel.fromJson(Map<String, dynamic> json) => _$ProfileResponseModelFromJson(json);

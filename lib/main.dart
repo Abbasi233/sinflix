@@ -2,19 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-import 'core/theme/light_theme.dart';
 import 'core/theme/dark_theme.dart';
-import 'injection/injection_container.dart';
-import 'features/theme/presentation/bloc/theme_cubit.dart';
-import 'features/auth/presentation/bloc/auth_bloc.dart';
+import 'core/theme/light_theme.dart';
 import 'core/navigation/app_router.dart';
-// import 'core/navigation/navigation_service_impl.dart';
+import 'core/service_locator.dart';
+import 'features/theme/presentation/bloc/theme_cubit.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
 
-  await init();
+  await initServiceLocator();
 
   runApp(
     EasyLocalization(
@@ -23,6 +21,7 @@ Future<void> main() async {
         Locale('tr', 'TR'),
       ],
       path: 'assets/translations',
+      // startLocale: const Locale('tr', 'TR'),
       fallbackLocale: const Locale('en', 'US'),
       child: const MyApp(),
     ),
@@ -36,13 +35,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => sl<AuthBloc>()),
         BlocProvider(
           create: (context) => sl<ThemeCubit>()..loadTheme(),
         ),
       ],
       child: BlocBuilder<ThemeCubit, ThemeMode>(
-        builder: (context, state) {
+        builder: (context, themeMode) {
           return MaterialApp.router(
             title: 'SinFlix',
             routerConfig: sl<AppRouter>().config(),
@@ -51,85 +49,9 @@ class MyApp extends StatelessWidget {
             locale: context.locale,
             theme: lightTheme,
             darkTheme: darkTheme,
-            themeMode: state,
+            themeMode: themeMode,
           );
         },
-      ),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: [
-          PopupMenuButton<ThemeMode>(
-            icon: const Icon(Icons.brightness_6),
-            onSelected: (ThemeMode themeMode) {
-              context.read<ThemeCubit>().changeTheme(themeMode);
-            },
-            itemBuilder: (context) => [
-              const PopupMenuItem(
-                value: ThemeMode.light,
-                child: Text('Açık Tema'),
-              ),
-              const PopupMenuItem(
-                value: ThemeMode.dark,
-                child: Text('Koyu Tema'),
-              ),
-              const PopupMenuItem(
-                value: ThemeMode.system,
-                child: Text('Sistem'),
-              ),
-            ],
-          ),
-        ],
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('Butona kaç kez bastınız:'),
-            const SizedBox(height: 20),
-            BlocBuilder<ThemeCubit, ThemeMode>(
-              builder: (context, state) {
-                String themeName = state.name.toUpperCase();
-
-                return Card(
-                  margin: const EdgeInsets.all(16),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      children: [
-                        const Text('Mevcut Tema:', style: TextStyle(fontWeight: FontWeight.bold)),
-                        const SizedBox(height: 8),
-                        Text(themeName),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                sl<AppRouter>().push(LoginRoute());
-              },
-              child: const Text('Login Sayfasına Git'),
-            ),
-          ],
-        ),
       ),
     );
   }

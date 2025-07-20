@@ -8,7 +8,4 @@ part of 'upload_photo_response_model.dart';
 
 UploadPhotoResponseModel _$UploadPhotoResponseModelFromJson(
   Map<String, dynamic> json,
-) => UploadPhotoResponseModel(
-  photoUrl: json['photoUrl'] as String,
-  message: json['message'] as String,
-);
+) => UploadPhotoResponseModel(photoUrl: json['photoUrl'] as String);

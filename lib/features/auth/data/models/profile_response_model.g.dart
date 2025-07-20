@@ -13,4 +13,5 @@ ProfileResponseModel _$ProfileResponseModelFromJson(
   name: json['name'] as String,
   email: json['email'] as String,
   photoUrl: json['photoUrl'] as String,
+  token: json['token'] as String,
 );

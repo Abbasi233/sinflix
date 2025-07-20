@@ -1,32 +1,27 @@
 import 'package:flutter/material.dart';
 
-const Color blackColor = Color(0xFF0F0F0F);
-const Color colora = Color.fromARGB(255, 233, 54, 170);
-const Color colorb = Color.fromARGB(255, 230, 182, 171);
+import '/core/colors.dart';
+import '/core/text_styles.dart';
 
 final darkTheme = ThemeData(
-  brightness: Brightness.dark,
-  // primaryColor: blackColor,
-  // splashColor: colora,
-  // canvasColor: colorb,
   useMaterial3: false,
-  // textTheme: const TextTheme(
-  //   labelLarge: TextStyle(color: Colors.white),
-  //   bodySmall: TextStyle(color: Colors.white),
-  //   bodyMedium: TextStyle(color: Colors.white),
-  //   bodyLarge: TextStyle(color: Colors.white),
-  //   titleSmall: TextStyle(color: Colors.white),
-  //   titleMedium: TextStyle(color: Colors.white),
-  //   titleLarge: TextStyle(color: Colors.white),
-  //   headlineSmall: TextStyle(color: Colors.white),
-  //   headlineMedium: TextStyle(color: Colors.white),
-  //   headlineLarge: TextStyle(color: Colors.white),
-  // ),
+  brightness: Brightness.dark,
+  textTheme: TextTheme(
+    labelLarge: TextStyles.labelLarge,
+    bodySmall: TextStyles.bodySmall,
+    bodyMedium: TextStyles.bodyMedium,
+    bodyLarge: TextStyles.bodyLarge,
+    titleSmall: TextStyles.titleSmall,
+    titleMedium: TextStyles.titleMedium,
+    titleLarge: TextStyles.titleLarge,
+    headlineMedium: TextStyles.headlineMedium,
+    headlineLarge: TextStyles.headlineLarge,
+  ),
   radioTheme: const RadioThemeData(
     fillColor: WidgetStatePropertyAll(Colors.white),
     overlayColor: WidgetStatePropertyAll(Colors.white),
   ),
-  scaffoldBackgroundColor: const Color(0xFF1E1E1E),
+  scaffoldBackgroundColor: AppColors.darkBackground,
   primaryIconTheme: const IconThemeData(color: Colors.white60),
   unselectedWidgetColor: Colors.grey[300],
   appBarTheme: const AppBarTheme(
@@ -47,21 +42,22 @@ final darkTheme = ThemeData(
     unselectedItemColor: Colors.grey,
   ),
   inputDecorationTheme: InputDecorationTheme(
-    contentPadding: const EdgeInsets.only(top: 22, left: 10),
-    labelStyle: const TextStyle(color: Colors.white),
-    fillColor: Colors.transparent,
     filled: true,
+    fillColor: AppColors.darkTextInputFill,
+    focusColor: AppColors.accent,
+    prefixIconConstraints: const BoxConstraints.expand(width: 26),
+    hintStyle: TextStyle(color: Colors.white.withAlpha(128)),
     border: OutlineInputBorder(
-      borderSide: BorderSide.none,
-      borderRadius: BorderRadius.circular(24),
+      borderRadius: BorderRadius.circular(16),
+      borderSide: const BorderSide(color: AppColors.darkBorder),
     ),
     focusedBorder: const OutlineInputBorder(
-      borderSide: BorderSide.none,
-      borderRadius: BorderRadius.all(Radius.circular(24)),
+      borderSide: BorderSide(color: AppColors.accent),
+      borderRadius: BorderRadius.all(Radius.circular(16)),
     ),
     enabledBorder: const OutlineInputBorder(
-      borderSide: BorderSide.none,
-      borderRadius: BorderRadius.all(Radius.circular(24)),
+      borderSide: BorderSide(color: AppColors.darkBorder),
+      borderRadius: BorderRadius.all(Radius.circular(16)),
     ),
   ),
   dividerColor: Colors.grey,

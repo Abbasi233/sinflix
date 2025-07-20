@@ -28,6 +28,7 @@ dependencies:
   intl: ^0.20.2
   lottie: ^3.3.1
   shimmer: ^3.0.0
+  flutter_svg: ^2.2.0
   pull_to_refresh: ^2.0.0
   easy_localization: ^3.0.7+1
   cached_network_image: ^3.4.1
@@ -54,12 +55,14 @@ flutter:
 
   assets:
     - assets/images/
+    - assets/images/icons/
     - assets/translations/
 
   fonts:
     - family: Euclid Circular A
       fonts:
         - asset: assets/fonts/Euclid-Circular-A-Regular.ttf
+          weight: 400
         - asset: assets/fonts/Euclid-Circular-A-Bold.ttf
           weight: 700
         - asset: assets/fonts/Euclid-Circular-A-Light.ttf

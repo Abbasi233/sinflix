@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:retrofit/error_logger.dart';
 import 'package:sinflix/core/entities/session_entity.dart';
 
 import '/core/network/dio_config.dart';
@@ -24,11 +25,13 @@ import '/shared/data/datasources/shared_preferences_service.dart';
 
 final sl = GetIt.instance;
 
-Future<void> init() async {
+Future<void> initServiceLocator() async {
   final sharedPrefsService = SharedPreferencesService();
   await sharedPrefsService.init();
 
   sl.registerLazySingleton(() => AppRouter());
+
+  sl.registerLazySingleton(() => SessionEntity());
 
   sl.registerFactory(
     () => AuthBloc(
@@ -55,7 +58,7 @@ Future<void> init() async {
   );
 
   sl.registerLazySingleton<AuthRemoteDataSource>(
-    () => AuthRemoteDataSourceImpl(authRestApi: sl()),
+    () => AuthRemoteDataSourceImpl(authRestApi: sl(), sessionEntity: sl()),
   );
 
   sl.registerLazySingleton<ThemeLocalDataSource>(
@@ -63,10 +66,8 @@ Future<void> init() async {
   );
 
   sl.registerLazySingleton(() => DioConfig.instance);
-
-  sl.registerLazySingleton(() => AuthRestApi(sl(), errorLogger: ErrorLogger()));
+  sl.registerLazySingleton<ParseErrorLogger>(() => ErrorLogger());
+  sl.registerLazySingleton(() => AuthRestApi(sl(), errorLogger: sl()));
 
   sl.registerLazySingleton<LocalStorageService>(() => sharedPrefsService);
-
-  sl.registerLazySingleton(() => SessionEntity());
 }

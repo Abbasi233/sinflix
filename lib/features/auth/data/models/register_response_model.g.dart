@@ -10,5 +10,8 @@ RegisterResponseModel _$RegisterResponseModelFromJson(
   Map<String, dynamic> json,
 ) => RegisterResponseModel(
   id: json['id'] as String,
-  message: json['message'] as String,
+  name: json['name'] as String,
+  email: json['email'] as String,
+  photoUrl: json['photoUrl'] as String,
+  token: json['token'] as String,
 );

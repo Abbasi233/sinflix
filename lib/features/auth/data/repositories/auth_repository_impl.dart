@@ -38,7 +38,10 @@ class AuthRepositoryImpl implements AuthRepository {
       return Right(
         RegisterEntity(
           id: registerResponse.id,
-          message: registerResponse.message,
+          name: registerResponse.name,
+          email: registerResponse.email,
+          photoUrl: registerResponse.photoUrl,
+          token: registerResponse.token,
         ),
       );
     } catch (e) {
@@ -56,6 +59,7 @@ class AuthRepositoryImpl implements AuthRepository {
           name: profileResponse.name,
           email: profileResponse.email,
           photoUrl: profileResponse.photoUrl,
+          token: profileResponse.token,
         ),
       );
     } catch (e) {
@@ -68,10 +72,7 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final uploadResponse = await remoteDataSource.uploadPhoto(photoPath);
       return Right(
-        UploadPhotoEntity(
-          photoUrl: uploadResponse.photoUrl,
-          message: uploadResponse.message,
-        ),
+        UploadPhotoEntity(photoUrl: uploadResponse.photoUrl),
       );
     } catch (e) {
       return Left(ServerFailure(e.toString()));

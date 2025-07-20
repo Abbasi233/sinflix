@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import '/core/data/base_data_source.dart';
+import '/core/entities/session_entity.dart';
 import '../models/login_response_model.dart';
 import '../models/register_response_model.dart';
 import '../models/profile_response_model.dart';
@@ -10,8 +11,12 @@ import 'auth_rest_api/auth_rest_api.dart';
 
 class AuthRemoteDataSourceImpl extends BaseDataSource implements AuthRemoteDataSource {
   final AuthRestApi authRestApi;
+  final SessionEntity sessionEntity;
 
-  AuthRemoteDataSourceImpl({required this.authRestApi});
+  AuthRemoteDataSourceImpl({
+    required this.authRestApi,
+    required this.sessionEntity,
+  });
 
   @override
   Future<LoginResponseModel> login(String email, String password) async {
@@ -37,7 +42,7 @@ class AuthRemoteDataSourceImpl extends BaseDataSource implements AuthRemoteDataS
 
   @override
   Future<ProfileResponseModel> getProfile() async {
-    final response = await handleResponse(() => authRestApi.profile());
+    final response = await handleResponse(() => authRestApi.profile(sessionEntity.bearerToken));
 
     if (response?.data != null) {
       return response!.data!;
@@ -49,7 +54,7 @@ class AuthRemoteDataSourceImpl extends BaseDataSource implements AuthRemoteDataS
   @override
   Future<UploadPhotoResponseModel> uploadPhoto(String photoPath) async {
     final file = File(photoPath);
-    final response = await handleResponse(() => authRestApi.uploadPhoto(file));
+    final response = await handleResponse(() => authRestApi.uploadPhoto(sessionEntity.bearerToken, file));
 
     if (response?.data != null) {
       return response!.data!;

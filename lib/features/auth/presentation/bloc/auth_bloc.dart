@@ -2,7 +2,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '/core/usecases/usecase.dart';
 import '/core/entities/session_entity.dart';
-import '/injection/injection_container.dart';
+import '../../../../core/service_locator.dart';
 import '/features/auth/domain/entities/profile_entity.dart';
 import '../../domain/usecases/login_usecase.dart';
 import '../../domain/usecases/register_usecase.dart';

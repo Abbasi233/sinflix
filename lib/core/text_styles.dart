@@ -9,53 +9,53 @@ class TextStyles {
     fontFamily: _fontFamily,
     fontSize: 28,
     fontWeight: FontWeight.bold,
-    color: AppColors.primaryText,
   );
 
   static TextStyle headlineMedium = const TextStyle(
     fontFamily: _fontFamily,
     fontSize: 20,
     fontWeight: FontWeight.bold,
-    color: AppColors.primaryText,
   );
 
   static TextStyle titleLarge = const TextStyle(
     fontFamily: _fontFamily,
     fontSize: 18,
-    fontWeight: FontWeight.bold,
-    color: AppColors.primaryText,
+    fontWeight: FontWeight.w600,
   );
 
   static TextStyle titleMedium = const TextStyle(
     fontFamily: _fontFamily,
-    fontSize: 16,
-    fontWeight: FontWeight.bold,
-    color: AppColors.primaryText,
+    fontSize: 15,
+    fontWeight: FontWeight.w500,
+  );
+
+  static TextStyle titleSmall = const TextStyle(
+    fontFamily: _fontFamily,
+    fontSize: 12,
+    fontWeight: FontWeight.w500,
   );
 
   static TextStyle bodyLarge = const TextStyle(
     fontFamily: _fontFamily,
     fontSize: 16,
-    color: AppColors.primaryText,
   );
 
   static TextStyle bodyMedium = const TextStyle(
     fontFamily: _fontFamily,
-    fontSize: 14,
-    color: AppColors.primaryText,
+    fontSize: 13,
+    fontWeight: FontWeight.w400,
   );
 
   static TextStyle bodySmall = const TextStyle(
     fontFamily: _fontFamily,
     fontSize: 12,
-    color: AppColors.secondaryText,
+    fontWeight: FontWeight.w400,
   );
 
   static TextStyle labelLarge = const TextStyle(
     fontFamily: _fontFamily,
     fontSize: 14,
     fontWeight: FontWeight.bold,
-    color: AppColors.primaryText,
   );
 
   static TextStyle labelMedium = const TextStyle(

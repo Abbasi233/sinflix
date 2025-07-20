@@ -3,7 +3,7 @@ import 'package:dio/dio.dart' hide Headers;
 import 'package:retrofit/retrofit.dart';
 
 import '/core/app_constant.dart';
-import '/model/base_response.dart';
+import '../../../../../core/model/base_response.dart';
 import '../../models/login_response_model.dart';
 import '../../models/register_response_model.dart';
 import '../../models/profile_response_model.dart';
@@ -29,10 +29,13 @@ abstract class AuthRestApi {
   );
 
   @GET('/profile')
-  Future<HttpResponse<BaseResponse<ProfileResponseModel?>?>> profile();
+  Future<HttpResponse<BaseResponse<ProfileResponseModel?>?>> profile(
+    @Header('Authorization') String token,
+  );
 
   @POST('/upload_photo')
   Future<HttpResponse<BaseResponse<UploadPhotoResponseModel?>?>> uploadPhoto(
+    @Header('Authorization') String token,
     @Part() File photo,
   );
 }

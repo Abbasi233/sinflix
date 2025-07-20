@@ -8,6 +8,8 @@
         "search": "Ara",
         "email": "E-posta",
         "password": "Şifre",
+        "full_name": "Ad Soyad",
+        "confirm_password": "Şifre Tekrar",
         "phone_number": "Telefon Numarası",
         "loading": "Yükleniyor...",
         "loaded": "Yüklendi",
@@ -36,9 +38,19 @@
         "light_mode": "Aydınlık Mod"
     },
     "login": {
-        "title": "Giriş Yap"
+        "title": "Giriş Yap",
+        "greeting": "Merhabalar",
+        "description": "Tempus varius a vitae interdum id tortor elementum tristique eleifend at.",
+        "forgot_password": "Şifremi Unuttum",
+        "no_account": "Bir hesabın yok mu?"
     },
     "register": {
-        "title": "Kayıt Ol"
+        "title": "Kayıt Ol",
+        "greeting": "Hoşgeldiniz",
+        "description": "Tempus varius a vitae interdum id tortor elementum tristique eleifend at.",
+        "have_account": "Zaten bir hesabın var mı?",
+        "terms_agreement": "Kullanıcı sözleşmesini ",
+        "terms_agreement_bold": "okudum ve kabul ediyorum",
+        "terms_agreement_end": ". Bu sözleşmeyi okuyarak devam ediniz lütfen."
     }
 }

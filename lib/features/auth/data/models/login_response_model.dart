@@ -10,7 +10,13 @@ class LoginResponseModel {
   final String photoUrl;
   final String token;
 
-  LoginResponseModel({required this.id, required this.name, required this.email, required this.photoUrl, required this.token});
+  LoginResponseModel({
+    required this.id,
+    required this.name,
+    required this.email,
+    required this.photoUrl,
+    required this.token,
+  });
 
   factory LoginResponseModel.fromJson(Map<String, dynamic> json) => _$LoginResponseModelFromJson(json);
 }
