@@ -4,14 +4,17 @@ import 'package:easy_localization/easy_localization.dart';
 
 import 'core/theme/light_theme.dart';
 import 'core/theme/dark_theme.dart';
-import 'injection/injection_container.dart' as di;
+import 'injection/injection_container.dart';
 import 'features/theme/presentation/bloc/theme_cubit.dart';
+import 'features/auth/presentation/bloc/auth_bloc.dart';
+import 'core/navigation/app_router.dart';
+// import 'core/navigation/navigation_service_impl.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
 
-  await di.init();
+  await init();
 
   runApp(
     EasyLocalization(
@@ -31,19 +34,24 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => di.sl<ThemeCubit>()..loadTheme(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => sl<AuthBloc>()),
+        BlocProvider(
+          create: (context) => sl<ThemeCubit>()..loadTheme(),
+        ),
+      ],
       child: BlocBuilder<ThemeCubit, ThemeMode>(
         builder: (context, state) {
-          return MaterialApp(
+          return MaterialApp.router(
             title: 'SinFlix',
+            routerConfig: sl<AppRouter>().config(),
             localizationsDelegates: context.localizationDelegates,
             supportedLocales: context.supportedLocales,
             locale: context.locale,
             theme: lightTheme,
             darkTheme: darkTheme,
             themeMode: state,
-            home: const MyHomePage(title: 'SinFlix Demo'),
           );
         },
       ),
@@ -112,6 +120,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 );
               },
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: () {
+                sl<AppRouter>().push(const LoginRoute());
+              },
+              child: const Text('Login Sayfasına Git'),
             ),
           ],
         ),

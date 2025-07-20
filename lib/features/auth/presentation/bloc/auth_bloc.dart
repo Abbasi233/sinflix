@@ -1,14 +1,14 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '/core/usecases/usecase.dart';
-import '../../domain/entities/login_entity.dart';
-import '../../domain/entities/register_entity.dart';
-import '../../domain/entities/profile_entity.dart';
-import '../../domain/entities/upload_photo_entity.dart';
+import '/features/auth/domain/entities/profile_entity.dart';
 import '../../domain/usecases/login_usecase.dart';
 import '../../domain/usecases/register_usecase.dart';
 import '../../domain/usecases/get_profile_usecase.dart';
 import '../../domain/usecases/upload_photo_usecase.dart';
+import '../../domain/entities/login_entity.dart';
+import '../../domain/entities/register_entity.dart';
+import '../../domain/entities/upload_photo_entity.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -31,6 +31,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<UploadPhotoEvent>(_onUploadPhoto);
   }
 
+  bool get isAuthenticated {
+    return state is LoginSuccess || state is RegisterSuccess;
+  }
+
   Future<void> _onLogin(LoginEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
 
@@ -43,7 +47,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     result.fold(
       (failure) => emit(AuthError(failure.message)),
-      (loginEntity) => emit(LoginSuccess(loginEntity)),
+      (loginEntity) {
+        emit(LoginSuccess(loginEntity));
+      },
     );
   }
 
@@ -52,15 +58,17 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
     final result = await registerUseCase(
       RegisterParams(
+        name: event.name,
         email: event.email,
         password: event.password,
-        name: event.name,
       ),
     );
 
     result.fold(
       (failure) => emit(AuthError(failure.message)),
-      (registerEntity) => emit(RegisterSuccess(registerEntity)),
+      (registerEntity) {
+        emit(RegisterSuccess(registerEntity));
+      },
     );
   }
 

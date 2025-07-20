@@ -7,6 +7,7 @@
         "delete": "Delete",
         "search": "Search",
         "email": "E-mail",
+        "password": "Password",
         "phone_number": "Phone Number",
         "loading": "Loading...",
         "loaded": "Loaded",
@@ -33,5 +34,11 @@
         "system_default": "System Default",
         "dark_mode": "Dark Mode",
         "light_mode": "Light Mode"
+    },
+    "login": {
+        "title": "Login"
+    },
+    "register": {
+        "title": "Register"
     }
 }

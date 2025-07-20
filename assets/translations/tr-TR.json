@@ -7,6 +7,7 @@
         "delete": "Sil",
         "search": "Ara",
         "email": "E-posta",
+        "password": "Şifre",
         "phone_number": "Telefon Numarası",
         "loading": "Yükleniyor...",
         "loaded": "Yüklendi",
@@ -33,5 +34,11 @@
         "system_default": "Sistem Varsayılanı",
         "dark_mode": "Karanlık Mod",
         "light_mode": "Aydınlık Mod"
+    },
+    "login": {
+        "title": "Giriş Yap"
+    },
+    "register": {
+        "title": "Kayıt Ol"
     }
 }
