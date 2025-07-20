@@ -2,18 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-import 'service_locator.dart';
-import 'services/local/shared_pref_provider.dart';
-import 'services/local/theme_provider.dart';
 import 'core/theme/light_theme.dart';
 import 'core/theme/dark_theme.dart';
+import 'injection/injection_container.dart' as di;
+import 'features/theme/presentation/bloc/theme_cubit.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-  await SharedPrefProvider().init();
 
-  setupLocator();
+  await di.init();
 
   runApp(
     EasyLocalization(
@@ -34,9 +32,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<ThemeProvider>()..initialize(),
-      child: BlocBuilder<ThemeProvider, ThemeMode>(
-        builder: (context, themeMode) {
+      create: (context) => di.sl<ThemeCubit>()..loadTheme(),
+      child: BlocBuilder<ThemeCubit, ThemeMode>(
+        builder: (context, state) {
           return MaterialApp(
             title: 'SinFlix',
             localizationsDelegates: context.localizationDelegates,
@@ -44,7 +42,7 @@ class MyApp extends StatelessWidget {
             locale: context.locale,
             theme: lightTheme,
             darkTheme: darkTheme,
-            themeMode: themeMode,
+            themeMode: state,
             home: const MyHomePage(title: 'SinFlix Demo'),
           );
         },
@@ -66,14 +64,12 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
         actions: [
-          // Tema değiştirme butonları
           PopupMenuButton<ThemeMode>(
             icon: const Icon(Icons.brightness_6),
             onSelected: (ThemeMode themeMode) {
-              context.read<ThemeProvider>().changeTheme(themeMode);
+              context.read<ThemeCubit>().changeTheme(themeMode);
             },
             itemBuilder: (context) => [
               const PopupMenuItem(
@@ -98,8 +94,10 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             const Text('Butona kaç kez bastınız:'),
             const SizedBox(height: 20),
-            BlocBuilder<ThemeProvider, ThemeMode>(
-              builder: (context, themeMode) {
+            BlocBuilder<ThemeCubit, ThemeMode>(
+              builder: (context, state) {
+                String themeName = state.name.toUpperCase();
+
                 return Card(
                   margin: const EdgeInsets.all(16),
                   child: Padding(
@@ -108,7 +106,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       children: [
                         const Text('Mevcut Tema:', style: TextStyle(fontWeight: FontWeight.bold)),
                         const SizedBox(height: 8),
-                        Text(themeMode.name.toUpperCase()),
+                        Text(themeName),
                       ],
                     ),
                   ),

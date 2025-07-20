@@ -4,9 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:easy_localization/easy_localization.dart';
 
-import '/core/widgets/error_widget.dart';
+import '../widgets/error_widget.dart';
 
-// Global Error Handler Service
 class GlobalErrorHandler {
   static GlobalKey<NavigatorState>? _navigatorKey;
 
@@ -18,7 +17,6 @@ class GlobalErrorHandler {
     return _navigatorKey?.currentContext;
   }
 
-  // Show error dialog
   static Future<void> showErrorDialog({
     String? titleKey,
     String? messageKey,
@@ -33,7 +31,6 @@ class GlobalErrorHandler {
     final context = _context;
     if (context == null) return;
 
-    // Record error if requested
     if (recordError && error != null) {
       GlobalErrorHandler.recordError(
         error,
@@ -71,7 +68,6 @@ class GlobalErrorHandler {
     );
   }
 
-  // Show error snackbar
   static void showErrorSnackBar({
     String? messageKey,
     Duration duration = const Duration(seconds: 4),
@@ -85,7 +81,6 @@ class GlobalErrorHandler {
     final context = _context;
     if (context == null) return;
 
-    // Record error if requested
     if (recordError && error != null) {
       GlobalErrorHandler.recordError(
         error,
@@ -129,7 +124,6 @@ class GlobalErrorHandler {
     );
   }
 
-  // Record error to Crashlytics
   static void recordError(
     dynamic error,
     StackTrace? stackTrace, {
@@ -138,7 +132,6 @@ class GlobalErrorHandler {
     bool fatal = false,
   }) {
     try {
-      // Log to console for debugging
       log(
         'Error recorded: $error',
         name: 'GlobalErrorHandler',
@@ -146,7 +139,6 @@ class GlobalErrorHandler {
         stackTrace: stackTrace,
       );
 
-      // Send to Firebase Crashlytics
       FirebaseCrashlytics.instance.recordError(
         error,
         stackTrace,
@@ -155,19 +147,16 @@ class GlobalErrorHandler {
         information: additionalData?.entries.map((e) => DiagnosticsProperty(e.key, e.value)).toList() ?? [],
       );
 
-      // Set custom keys for better debugging
       if (additionalData != null) {
         for (final entry in additionalData.entries) {
           FirebaseCrashlytics.instance.setCustomKey(entry.key, entry.value);
         }
       }
     } catch (e) {
-      // Crashlytics kendisi hata verirse log'a yazdır
       log('Failed to record error to Crashlytics: $e', name: 'GlobalErrorHandler');
     }
   }
 
-  // Handle common error types
   static void handleError(
     dynamic error, {
     StackTrace? stackTrace,
@@ -176,7 +165,6 @@ class GlobalErrorHandler {
     bool recordError = true,
     String? reason,
   }) {
-    // Show UI if requested
     if (!showUI) return;
 
     final errorString = error.toString().toLowerCase();
@@ -223,7 +211,6 @@ class GlobalErrorHandler {
     }
   }
 
-  // Log custom events
   static void logEvent(String eventName, {Map<String, dynamic>? parameters}) {
     try {
       FirebaseCrashlytics.instance.log('$eventName: ${parameters?.toString() ?? ''}');
@@ -238,7 +225,6 @@ class GlobalErrorHandler {
     }
   }
 
-  // Set user information
   static void setUserInfo({
     required String userId,
     String? email,
