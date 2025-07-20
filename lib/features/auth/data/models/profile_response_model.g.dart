@@ -7,10 +7,10 @@ part of 'profile_response_model.dart';
 // **************************************************************************
 
 ProfileResponseModel _$ProfileResponseModelFromJson(
-        Map<String, dynamic> json) =>
-    ProfileResponseModel(
-      id: json['id'] as String,
-      name: json['name'] as String,
-      email: json['email'] as String,
-      photoUrl: json['photoUrl'] as String,
-    );
+  Map<String, dynamic> json,
+) => ProfileResponseModel(
+  id: json['id'] as String,
+  name: json['name'] as String,
+  email: json['email'] as String,
+  photoUrl: json['photoUrl'] as String,
+);

@@ -1,6 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '/core/usecases/usecase.dart';
+import '/core/entities/session_entity.dart';
+import '/injection/injection_container.dart';
 import '/features/auth/domain/entities/profile_entity.dart';
 import '../../domain/usecases/login_usecase.dart';
 import '../../domain/usecases/register_usecase.dart';
@@ -31,10 +33,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<UploadPhotoEvent>(_onUploadPhoto);
   }
 
-  bool get isAuthenticated {
-    return state is LoginSuccess || state is RegisterSuccess;
-  }
-
   Future<void> _onLogin(LoginEvent event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
 
@@ -48,6 +46,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     result.fold(
       (failure) => emit(AuthError(failure.message)),
       (loginEntity) {
+        sl<SessionEntity>().update(
+          id: loginEntity.id,
+          name: loginEntity.name,
+          email: loginEntity.email,
+          photoUrl: loginEntity.photoUrl,
+          token: loginEntity.token,
+        );
+
         emit(LoginSuccess(loginEntity));
       },
     );

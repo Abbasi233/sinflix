@@ -7,8 +7,8 @@ part of 'register_response_model.dart';
 // **************************************************************************
 
 RegisterResponseModel _$RegisterResponseModelFromJson(
-        Map<String, dynamic> json) =>
-    RegisterResponseModel(
-      id: json['id'] as String,
-      message: json['message'] as String,
-    );
+  Map<String, dynamic> json,
+) => RegisterResponseModel(
+  id: json['id'] as String,
+  message: json['message'] as String,
+);

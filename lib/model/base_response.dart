@@ -6,72 +6,74 @@ enum ApiStatus {
   ERROR,
 }
 
+class ResponseInfo {
+  final int code;
+  final String message;
+
+  ResponseInfo({
+    required this.code,
+    required this.message,
+  });
+
+  factory ResponseInfo.fromJson(Map<String, dynamic> json) {
+    return ResponseInfo(
+      code: json['code'] ?? 0,
+      message: json['message'] ?? '',
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'code': code,
+      'message': message,
+    };
+  }
+}
+
 class BaseResponse<T> {
-  int? pageNumber;
-  int? totalPageSize;
-  int? resultSize;
-  int? totalRecordSize;
-  int? timestamp;
-  String? path;
-  int? status;
-  String? error;
-  String? code;
-  String? description;
-  T? body;
+  ResponseInfo? response;
+  T? data;
   ApiStatus apiStatus = ApiStatus.COMPLETED;
 
-  static String get successCode => "1";
+  static String get successCode => "200";
 
   BaseResponse({
-    this.code,
-    this.description,
-    this.body,
-    this.pageNumber,
-    this.totalPageSize,
-    this.resultSize,
-    this.totalRecordSize,
+    this.response,
+    this.data,
   });
 
   BaseResponse.loading() : apiStatus = ApiStatus.LOADING;
 
-  BaseResponse.completed([this.body]) : apiStatus = ApiStatus.COMPLETED;
+  BaseResponse.completed([this.data]) : apiStatus = ApiStatus.COMPLETED;
 
-  BaseResponse.error(this.description) : apiStatus = ApiStatus.ERROR;
+  BaseResponse.error(String message) : apiStatus = ApiStatus.ERROR;
 
-  factory BaseResponse.fromJson(Map<String, dynamic>? json, T? Function(dynamic) body) {
+  factory BaseResponse.fromJson(Map<String, dynamic>? json, T? Function(dynamic) dataFromJson) {
     if (json == null) return BaseResponse();
 
     try {
-      T? bodyValue;
-      final rawBody = json['body'];
+      final responseJson = json['response'] as Map<String, dynamic>?;
+      final dataJson = json['data'];
 
-      if (rawBody == null) {
-        bodyValue = null;
-      } else if (rawBody is String && T.toString() != 'String' && T.toString() != 'String?') {
-        bodyValue = null;
-      } else {
+      final response = responseJson != null ? ResponseInfo.fromJson(responseJson) : null;
+
+      T? dataValue;
+      if (dataJson != null) {
         try {
-          bodyValue = body(rawBody);
+          dataValue = dataFromJson(dataJson);
         } catch (e, stackTrace) {
           log(e.toString(), stackTrace: stackTrace);
-          bodyValue = null;
-          rethrow;
+          dataValue = null;
         }
       }
 
       return BaseResponse(
-        code: json['code'] ?? json['status']?.toString(),
-        description: json['description'] ?? json['error'],
-        body: bodyValue,
-        pageNumber: json['pageNumber'],
-        totalPageSize: json['totalPageSize'],
-        resultSize: json['resultSize'],
-        totalRecordSize: json['totalRecordSize'],
+        response: response,
+        data: dataValue,
       );
     } catch (e) {
       return BaseResponse(
-        code: json['code'] ?? json['status']?.toString(),
-        description: json['description'] ?? json['error'] ?? e.toString(),
+        response: ResponseInfo(code: 0, message: e.toString()),
       );
     }
   }
@@ -79,23 +81,23 @@ class BaseResponse<T> {
   void when({
     void Function()? loading,
     void Function(dynamic data)? completed,
-    void Function(String? description)? error,
+    void Function(String? message)? error,
   }) {
     switch (apiStatus) {
       case ApiStatus.LOADING:
         loading?.call();
         break;
       case ApiStatus.COMPLETED:
-        completed?.call(body);
+        completed?.call(data);
         break;
       case ApiStatus.ERROR:
-        error?.call(description);
+        error?.call(response?.message);
         break;
     }
   }
 
   @override
   String toString() {
-    return "Code: $code, Description: $description, Body: $body";
+    return "Response: ${response?.code}, Message: ${response?.message}, Data: $data";
   }
 }

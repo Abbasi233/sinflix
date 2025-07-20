@@ -124,7 +124,7 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                sl<AppRouter>().push(const LoginRoute());
+                sl<AppRouter>().push(LoginRoute());
               },
               child: const Text('Login Sayfasına Git'),
             ),

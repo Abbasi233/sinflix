@@ -21,7 +21,7 @@ dependencies:
   shared_preferences: ^2.5.3
   
   # Navigation
-  auto_route: ^9.2.2
+  auto_route: ^10.1.0+1
   
   # UI
   gap: ^3.0.1
@@ -46,8 +46,8 @@ dev_dependencies:
   # Code generation
   build_runner: ^2.5.4
   json_serializable: ^6.7.1
-  retrofit_generator: ^8.0.3
-  auto_route_generator: ^9.0.0
+  retrofit_generator: ^9.7.0
+  auto_route_generator: ^10.1.0
 
 flutter:
   uses-material-design: true

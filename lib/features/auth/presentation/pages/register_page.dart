@@ -52,7 +52,7 @@ class _RegisterPageState extends State<RegisterPage> {
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text('Kayıt başarılı!')),
             );
-            context.router.canPop();
+            context.router.pop();
           } else if (state is AuthError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.message)),
@@ -150,7 +150,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   children: [
                     const Text('Zaten hesabınız var mı?'),
                     TextButton(
-                      onPressed: () => context.router.canPop(),
+                      onPressed: () => context.router.pop(),
                       child: const Text('Giriş Yap'),
                     ),
                   ],

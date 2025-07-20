@@ -89,7 +89,7 @@ class ProfilePage extends StatelessWidget {
               trailing: const Icon(Icons.arrow_forward_ios),
               onTap: () {
                 // context.read<AuthBloc>().logout();
-                context.router.push(const LoginRoute());
+                context.router.push(LoginRoute());
               },
             ),
             const Spacer(),

@@ -64,7 +64,7 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                context.router.push(const LoginRoute());
+                context.router.push(LoginRoute());
               },
               child: const Text('Login Sayfasına Git'),
             ),

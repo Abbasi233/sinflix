@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/widgets.dart';
 
 import '/features/auth/presentation/pages/login_page.dart';
 import '/features/auth/presentation/pages/register_page.dart';

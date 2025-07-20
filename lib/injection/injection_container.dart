@@ -1,7 +1,8 @@
-import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:sinflix/core/entities/session_entity.dart';
 
-import '/core/network/network_info.dart';
+import '/core/network/dio_config.dart';
+import '/core/network/error_logger.dart';
 import '/core/navigation/app_router.dart';
 import '/core/storage/local_storage_service.dart';
 import '/features/auth/data/datasources/auth_remote_data_source.dart';
@@ -46,10 +47,7 @@ Future<void> init() async {
   sl.registerLazySingleton(() => UploadPhotoUseCase(sl()));
 
   sl.registerLazySingleton<AuthRepository>(
-    () => AuthRepositoryImpl(
-      remoteDataSource: sl(),
-      networkInfo: sl(),
-    ),
+    () => AuthRepositoryImpl(remoteDataSource: sl()),
   );
 
   sl.registerLazySingleton<ThemeRepository>(
@@ -64,14 +62,11 @@ Future<void> init() async {
     () => ThemeLocalDataSourceImpl(localStorageService: sl()),
   );
 
-  sl.registerLazySingleton(() => Dio());
-  sl.registerLazySingleton(() => AuthRestApi(sl()));
+  sl.registerLazySingleton(() => DioConfig.instance);
 
-  sl.registerLazySingleton<NetworkInfo>(() => NetworkInfoImpl());
+  sl.registerLazySingleton(() => AuthRestApi(sl(), errorLogger: ErrorLogger()));
+
   sl.registerLazySingleton<LocalStorageService>(() => sharedPrefsService);
-}
 
-class NetworkInfoImpl implements NetworkInfo {
-  @override
-  Future<bool> get isConnected async => true;
+  sl.registerLazySingleton(() => SessionEntity());
 }
