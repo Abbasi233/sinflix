@@ -3,9 +3,11 @@ import 'package:flutter/widgets.dart';
 
 import '/features/auth/presentation/pages/login_page.dart';
 import '/features/auth/presentation/pages/register_page.dart';
+import '/features/auth/presentation/pages/upload_photo_page.dart';
 import '/features/dashboard/presentation/pages/home_page.dart';
 import '/features/dashboard/presentation/pages/profile_page.dart';
 import '/features/dashboard/presentation/pages/dashboard_page.dart';
+import '/features/dashboard/presentation/pages/settings_page.dart';
 import 'app_guard.dart';
 
 part 'app_router.gr.dart';
@@ -16,6 +18,7 @@ class AppRouter extends RootStackRouter {
   List<AutoRoute> get routes => [
     AutoRoute(path: '/login', page: LoginRoute.page),
     AutoRoute(path: '/register', page: RegisterRoute.page),
+    AutoRoute(path: '/upload-photo', page: UploadPhotoRoute.page),
     AutoRoute(
       path: '/',
       page: DashboardRoute.page,
@@ -25,6 +28,7 @@ class AppRouter extends RootStackRouter {
         AutoRoute(path: 'profile', page: ProfileRoute.page),
       ],
     ),
+    AutoRoute(path: '/settings', page: SettingsRoute.page),
     RedirectRoute(path: '*', redirectTo: '/'),
   ];
 

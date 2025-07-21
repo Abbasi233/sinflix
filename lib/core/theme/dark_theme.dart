@@ -8,6 +8,7 @@ final darkTheme = ThemeData(
   brightness: Brightness.dark,
   textTheme: TextTheme(
     labelLarge: TextStyles.labelLarge,
+    labelMedium: TextStyles.labelMedium,
     bodySmall: TextStyles.bodySmall,
     bodyMedium: TextStyles.bodyMedium,
     bodyLarge: TextStyles.bodyLarge,
@@ -24,10 +25,12 @@ final darkTheme = ThemeData(
   scaffoldBackgroundColor: AppColors.darkBackground,
   primaryIconTheme: const IconThemeData(color: Colors.white60),
   unselectedWidgetColor: Colors.grey[300],
-  appBarTheme: const AppBarTheme(
-    backgroundColor: Color(0xFF1E1E1E),
+  appBarTheme: AppBarTheme(
     elevation: 0,
     centerTitle: true,
+    titleTextStyle: TextStyles.titleMedium,
+    backgroundColor: AppColors.darkBackground,
+    iconTheme: const IconThemeData(color: Colors.white),
   ),
   cardTheme: CardThemeData(
     shape: RoundedRectangleBorder(
@@ -43,7 +46,7 @@ final darkTheme = ThemeData(
   ),
   inputDecorationTheme: InputDecorationTheme(
     filled: true,
-    fillColor: AppColors.darkTextInputFill,
+    fillColor: AppColors.darkInputFill,
     focusColor: AppColors.accent,
     prefixIconConstraints: const BoxConstraints.expand(width: 26),
     hintStyle: TextStyle(color: Colors.white.withAlpha(128)),

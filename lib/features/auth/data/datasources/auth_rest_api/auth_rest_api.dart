@@ -36,6 +36,6 @@ abstract class AuthRestApi {
   @POST('/upload_photo')
   Future<HttpResponse<BaseResponse<UploadPhotoResponseModel?>?>> uploadPhoto(
     @Header('Authorization') String token,
-    @Part() File photo,
+    @Part() File file,
   );
 }

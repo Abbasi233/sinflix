@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 
-import '/core/entities/session_entity.dart';
 import '../service_locator.dart';
+import '/core/entities/session_entity.dart';
 
 import 'app_router.dart';
 

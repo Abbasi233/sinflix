@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sinflix/core/colors.dart';
 
+import '/core/colors.dart';
 import '/core/asset_paths.dart';
 
 class AppTextFormField extends StatelessWidget {
@@ -33,6 +32,7 @@ class AppTextFormField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     return AnimatedBuilder(
       animation: _showPassword,
       builder: (context, _) {
@@ -50,15 +50,12 @@ class AppTextFormField extends StatelessWidget {
                     alignment: Alignment.centerRight,
                     child: Padding(
                       padding: const EdgeInsets.only(right: 10),
-                      child: SvgPicture.asset(
+                      child: Image.asset(
                         prefixSvgPath!,
                         width: 16,
                         height: 16,
                         fit: BoxFit.scaleDown,
-                        colorFilter: ColorFilter.mode(
-                          Theme.of(context).brightness == Brightness.dark ? Colors.white : Colors.black,
-                          BlendMode.srcIn,
-                        ),
+                        color: isDark ? Colors.white : Colors.black,
                       ),
                     ),
                   )
@@ -70,19 +67,16 @@ class AppTextFormField extends StatelessWidget {
                     onTap: () => _showPassword.value = !_showPassword.value,
                     child: Padding(
                       padding: const EdgeInsets.only(left: 10, right: 30),
-                      child: SvgPicture.asset(
+                      child: Image.asset(
                         AssetPaths.hideImg,
                         width: 16,
                         height: 16,
                         fit: BoxFit.scaleDown,
-                        colorFilter: ColorFilter.mode(
-                          _showPassword.value
-                              ? AppColors.accent
-                              : Theme.of(context).brightness == Brightness.dark
-                              ? Colors.white
-                              : Colors.black,
-                          BlendMode.srcIn,
-                        ),
+                        color: _showPassword.value
+                            ? AppColors.accent
+                            : isDark
+                            ? Colors.white
+                            : Colors.black,
                       ),
                     ),
                   )

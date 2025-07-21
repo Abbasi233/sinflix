@@ -11,6 +11,7 @@ final lightTheme = ThemeData(
   primaryColorLight: AppColors.primary,
   textTheme: TextTheme(
     labelLarge: TextStyles.labelLarge,
+    labelMedium: TextStyles.labelMedium,
     bodySmall: TextStyles.bodySmall,
     bodyMedium: TextStyles.bodyMedium,
     bodyLarge: TextStyles.bodyLarge,
@@ -24,11 +25,11 @@ final lightTheme = ThemeData(
   unselectedWidgetColor: AppColors.border,
   canvasColor: AppColors.card,
   appBarTheme: AppBarTheme(
-    iconTheme: const IconThemeData(color: Colors.black),
-    backgroundColor: AppColors.lightBackground,
-    elevation: 1,
+    elevation: 0,
     centerTitle: true,
-    titleTextStyle: TextStyles.headlineMedium,
+    titleTextStyle: TextStyles.titleMedium.copyWith(color: Colors.black),
+    backgroundColor: AppColors.lightBackground,
+    iconTheme: const IconThemeData(color: Colors.black),
   ),
   cardTheme: CardThemeData(
     shape: RoundedRectangleBorder(
@@ -61,7 +62,7 @@ final lightTheme = ThemeData(
   ),
   inputDecorationTheme: InputDecorationTheme(
     filled: true,
-    fillColor: AppColors.lightTextInputFill,
+    fillColor: AppColors.lightInputFill,
     focusColor: AppColors.accent,
     prefixIconConstraints: const BoxConstraints.expand(width: 26),
     hintStyle: TextStyle(color: Colors.black.withAlpha(128)),

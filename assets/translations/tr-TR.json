@@ -52,5 +52,21 @@
         "terms_agreement": "Kullanıcı sözleşmesini ",
         "terms_agreement_bold": "okudum ve kabul ediyorum",
         "terms_agreement_end": ". Bu sözleşmeyi okuyarak devam ediniz lütfen."
+    },
+    "dashboard": {
+        "home": "Anasayfa",
+        "profile": "Profil"
+    },
+    "profile": {
+        "title": "Profil Detayı",
+        "limited_offer": "Sınırlı Teklif",
+        "add_photo": "Fotoğraf Ekle",
+        "favorite_movies": "Beğendiğim Filmler"
+    },
+    "upload_photo": {
+        "title": "Fotoğraflarınızı Yükleyin",
+        "desc": "Resources out incentivize relaxation floor loss cc.",
+        "continue": "Devam Et",
+        "success_message": "Fotoğraf başarıyla yüklendi"
     }
 }

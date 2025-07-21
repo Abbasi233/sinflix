@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '/core/colors.dart';
-
 class TextStyles {
   static const String _fontFamily = 'Euclid Circular A';
 
@@ -61,6 +59,6 @@ class TextStyles {
   static TextStyle labelMedium = const TextStyle(
     fontFamily: _fontFamily,
     fontSize: 13,
-    color: AppColors.secondaryText,
+    fontWeight: FontWeight.w700,
   );
 }

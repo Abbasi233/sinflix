@@ -52,5 +52,21 @@
         "terms_agreement": "I have ",
         "terms_agreement_bold": "read and agree",
         "terms_agreement_end": " to the user agreement. Please read this agreement to continue."
+    },
+    "dashboard": {
+        "home": "Home",
+        "profile": "Profile"
+    },
+    "profile": {
+        "title": "Profile Details",
+        "limited_offer": "Limited Offer",
+        "add_photo": "Add Photo",
+        "favorite_movies": "My Favorite Movies"
+    },
+    "upload_photo": {
+        "title": "Upload Your Photos",
+        "desc": "Resources out incentivize relaxation floor loss cc.",
+        "continue": "Continue",
+        "success_message": "Photo uploaded successfully"
     }
 }

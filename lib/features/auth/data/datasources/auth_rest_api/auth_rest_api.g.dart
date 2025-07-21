@@ -148,7 +148,7 @@ class _AuthRestApi implements AuthRestApi {
   @override
   Future<HttpResponse<BaseResponse<UploadPhotoResponseModel?>?>> uploadPhoto(
     String token,
-    File photo,
+    File file,
   ) async {
     final _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -157,10 +157,10 @@ class _AuthRestApi implements AuthRestApi {
     final _data = FormData();
     _data.files.add(
       MapEntry(
-        'photo',
+        'file',
         MultipartFile.fromFileSync(
-          photo.path,
-          filename: photo.path.split(Platform.pathSeparator).last,
+          file.path,
+          filename: file.path.split(Platform.pathSeparator).last,
         ),
       ),
     );

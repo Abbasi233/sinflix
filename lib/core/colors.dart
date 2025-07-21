@@ -7,8 +7,8 @@ class AppColors {
   static const Color lightBorder = Color.fromARGB(193, 0, 0, 0);
   static const Color darkBorder = Color(0x33FFFFFF);
 
-  static const Color lightTextInputFill = Color.fromARGB(132, 255, 255, 255);
-  static const Color darkTextInputFill = Color(0x1AFFFFFF);
+  static const Color lightInputFill = Color.fromARGB(132, 255, 255, 255);
+  static const Color darkInputFill = Color(0x1AFFFFFF);
 
   static const Color primary = Color(0xFFF2E8EB);
   static const Color accent = Color(0xFFE50914);
