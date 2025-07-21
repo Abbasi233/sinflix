@@ -1,10 +1,11 @@
-import 'package:easy_localization/easy_localization.dart';
+import 'package:gap/gap.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
-import 'package:gap/gap.dart';
+import 'package:easy_localization/easy_localization.dart';
 
+import '/core/asset_paths.dart';
+import '../widgets/bottom_nav_item.dart';
 import '/core/navigation/app_router.dart';
-import '../utils/bottom_nav_item.dart';
 
 @RoutePage()
 class DashboardPage extends StatelessWidget {
@@ -24,14 +25,14 @@ class DashboardPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               BottomNavItem(
-                icon: Icons.home,
-                title: 'home'.tr(),
+                iconPath: AssetPaths.homeImg,
+                title: 'dashboard.home'.tr(),
                 onTap: () => tr.setActiveIndex(0),
               ),
               const Gap(16),
               BottomNavItem(
-                icon: Icons.person,
-                title: 'profile'.tr(),
+                iconPath: AssetPaths.profileImg,
+                title: 'dashboard.profile'.tr(),
                 onTap: () => tr.setActiveIndex(1),
               ),
             ],

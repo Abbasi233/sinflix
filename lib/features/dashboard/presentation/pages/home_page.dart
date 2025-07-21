@@ -3,10 +3,29 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:auto_route/auto_route.dart';
 import '../../../../features/theme/presentation/bloc/theme_cubit.dart';
 import '../../../../core/navigation/app_router.dart';
+import '../../../../core/widgets/refresh_indicator.dart';
+import '../../domain/entities/movie_entity.dart';
+import '../bloc/movie_bloc.dart';
+import '../../../theme/presentation/bloc/theme_cubit.dart';
 
 @RoutePage()
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<MovieBloc>().add(const FetchMoviesEvent());
+  }
+
+  Future<void> _onRefresh() async {
+    context.read<MovieBloc>().add(const FetchMoviesEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,39 +55,35 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('SinFlix Anasayfa'),
-            const SizedBox(height: 20),
-            BlocBuilder<ThemeCubit, ThemeMode>(
-              builder: (context, state) {
-                String themeName = state.name.toUpperCase();
-
-                return Card(
-                  margin: const EdgeInsets.all(16),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      children: [
-                        const Text('Mevcut Tema:', style: TextStyle(fontWeight: FontWeight.bold)),
-                        const SizedBox(height: 8),
-                        Text(themeName),
-                      ],
-                    ),
-                  ),
+      body: BlocProvider<MovieBloc>(
+        create: (context) => BlocProvider.of<MovieBloc>(context),
+        child: AppRefreshIndicator(
+          onRefresh: _onRefresh,
+          child: BlocBuilder<MovieBloc, MovieState>(
+            builder: (context, state) {
+              if (state is MovieLoading) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (state is MoviesLoaded) {
+                final movies = state.movies;
+                if (movies.isEmpty) {
+                  return const Center(child: Text('Film bulunamadı.'));
+                }
+                return ListView.builder(
+                  itemCount: movies.length,
+                  itemBuilder: (context, index) {
+                    final movie = movies[index];
+                    return ListTile(
+                      title: Text(movie.title),
+                      subtitle: Text(movie.year.toString()),
+                    );
+                  },
                 );
-              },
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                context.router.push(LoginRoute());
-              },
-              child: const Text('Login Sayfasına Git'),
-            ),
-          ],
+              } else if (state is MovieError) {
+                return Center(child: Text(state.message));
+              }
+              return const SizedBox.shrink();
+            },
+          ),
         ),
       ),
     );

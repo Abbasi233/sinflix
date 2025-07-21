@@ -58,7 +58,7 @@ class BaseResponse<T> {
       final response = responseJson != null ? ResponseInfo.fromJson(responseJson) : null;
 
       T? dataValue;
-      if (dataJson != null) {
+      if (response?.code == 200 && dataJson != null) {
         try {
           dataValue = dataFromJson(dataJson);
         } catch (e, stackTrace) {

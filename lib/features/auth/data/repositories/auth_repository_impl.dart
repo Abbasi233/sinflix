@@ -72,7 +72,12 @@ class AuthRepositoryImpl implements AuthRepository {
     try {
       final uploadResponse = await remoteDataSource.uploadPhoto(photoPath);
       return Right(
-        UploadPhotoEntity(photoUrl: uploadResponse.photoUrl),
+        UploadPhotoEntity(
+          id: uploadResponse.id,
+          name: uploadResponse.name,
+          email: uploadResponse.email,
+          photoUrl: uploadResponse.photoUrl,
+        ),
       );
     } catch (e) {
       return Left(ServerFailure(e.toString()));

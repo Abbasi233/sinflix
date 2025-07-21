@@ -10,7 +10,7 @@ class GetProfileUseCase implements UseCase<ProfileEntity, NoParams> {
   GetProfileUseCase(this.repository);
 
   @override
-  Future<Either<Failure, ProfileEntity>> call(NoParams params) async {
+  Future<Either<Failure, ProfileEntity>> call(NoParams _) async {
     return await repository.getProfile();
   }
 }

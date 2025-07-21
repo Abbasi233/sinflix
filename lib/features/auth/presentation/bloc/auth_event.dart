@@ -28,3 +28,11 @@ class UploadPhotoEvent extends AuthEvent {
 
   const UploadPhotoEvent({required this.photoPath});
 }
+
+class CheckAuthEvent extends AuthEvent {
+  const CheckAuthEvent();
+}
+
+class LogoutEvent extends AuthEvent {
+  const LogoutEvent();
+}

@@ -1,8 +1,9 @@
+import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '/core/service_locator.dart';
 import '/core/usecases/usecase.dart';
 import '/core/entities/session_entity.dart';
-import '../../../../core/service_locator.dart';
 import '/features/auth/domain/entities/profile_entity.dart';
 import '../../domain/usecases/login_usecase.dart';
 import '../../domain/usecases/register_usecase.dart';
@@ -31,6 +32,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<RegisterEvent>(_onRegister);
     on<GetProfileEvent>(_onGetProfile);
     on<UploadPhotoEvent>(_onUploadPhoto);
+    on<CheckAuthEvent>(_onCheckAuth);
+    on<LogoutEvent>(_onLogout);
   }
 
   Future<void> _onLogin(LoginEvent event, Emitter<AuthState> emit) async {
@@ -73,6 +76,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     result.fold(
       (failure) => emit(AuthError(failure.message)),
       (registerEntity) {
+        sl<SessionEntity>().update(
+          id: registerEntity.id,
+          name: registerEntity.name,
+          email: registerEntity.email,
+          photoUrl: registerEntity.photoUrl,
+          token: registerEntity.token,
+        );
+
         emit(RegisterSuccess(registerEntity));
       },
     );
@@ -90,17 +101,61 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   Future<void> _onUploadPhoto(UploadPhotoEvent event, Emitter<AuthState> emit) async {
-    emit(AuthLoading());
+    emit(const PhotoUploading());
 
     final result = await uploadPhotoUseCase(
-      UploadPhotoParams(
-        photoPath: event.photoPath,
-      ),
+      UploadPhotoParams(photoPath: event.photoPath),
     );
 
     result.fold(
       (failure) => emit(AuthError(failure.message)),
-      (uploadEntity) => emit(PhotoUploaded(uploadEntity)),
+      (uploadEntity) {
+        sl<SessionEntity>().update(
+          id: uploadEntity.id,
+          name: uploadEntity.name,
+          email: uploadEntity.email,
+          photoUrl: uploadEntity.photoUrl,
+          token: sl<SessionEntity>().token!,
+        );
+        emit(PhotoUploaded(uploadEntity));
+      },
     );
+  }
+
+  Future<void> _onCheckAuth(CheckAuthEvent event, Emitter<AuthState> emit) async {
+    emit(AuthLoading());
+
+    await sl<SessionEntity>().loadFromStorage();
+
+    if (!sl<SessionEntity>().isAuthenticated) {
+      log("Token bulunamadı");
+      emit(const AuthError('Token bulunamadı'));
+      return;
+    }
+
+    final result = await getProfileUseCase(NoParams());
+
+    result.fold(
+      (failure) {
+        sl<SessionEntity>().clear();
+        log("Token geçersiz, lütfen tekrar giriş yapın");
+        emit(const AuthError('Token geçersiz, lütfen tekrar giriş yapın'));
+      },
+      (profileEntity) {
+        sl<SessionEntity>().update(
+          id: profileEntity.id,
+          name: profileEntity.name,
+          email: profileEntity.email,
+          photoUrl: profileEntity.photoUrl,
+          token: profileEntity.token,
+        );
+        emit(AuthAuthenticated(profileEntity));
+      },
+    );
+  }
+
+  Future<void> _onLogout(LogoutEvent event, Emitter<AuthState> emit) async {
+    sl<SessionEntity>().clear();
+    emit(AuthInitial());
   }
 }

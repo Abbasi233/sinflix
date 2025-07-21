@@ -27,6 +27,7 @@ class OAuthButton extends StatelessWidget {
             color: isDarkMode ? AppColors.darkBorder : AppColors.lightBorder,
             width: 1,
           ),
+          color: isDarkMode ? AppColors.darkInputFill : AppColors.lightInputFill,
         ),
         child: Center(
           child: Image.asset(

@@ -6,7 +6,7 @@ import '../../domain/repositories/theme_repository.dart';
 class ThemeCubit extends Cubit<ThemeMode> {
   final ThemeRepository repository;
 
-  ThemeCubit({required this.repository}) : super(ThemeMode.light);
+  ThemeCubit({required this.repository}) : super(ThemeMode.dark);
 
   Future<void> loadTheme() async {
     final themeMode = await repository.getCurrentTheme();

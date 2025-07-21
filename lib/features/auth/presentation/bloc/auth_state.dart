@@ -26,6 +26,10 @@ class ProfileLoaded extends AuthState {
   const ProfileLoaded(this.profileEntity);
 }
 
+class PhotoUploading extends AuthState {
+  const PhotoUploading();
+}
+
 class PhotoUploaded extends AuthState {
   final UploadPhotoEntity uploadEntity;
 
@@ -36,4 +40,10 @@ class AuthError extends AuthState {
   final String message;
 
   const AuthError(this.message);
+}
+
+class AuthAuthenticated extends AuthState {
+  final ProfileEntity profileEntity;
+
+  const AuthAuthenticated(this.profileEntity);
 }

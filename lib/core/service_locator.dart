@@ -21,19 +21,28 @@ import '/features/theme/data/datasources/theme_local_data_source_impl.dart';
 import '/features/theme/data/repositories/theme_repository_impl.dart';
 import '/features/theme/domain/repositories/theme_repository.dart';
 import '/features/theme/presentation/bloc/theme_cubit.dart';
-import '/shared/data/datasources/shared_preferences_service.dart';
+import '/core/storage/secure_storage_service.dart';
+import '/features/dashboard/data/datasource/movie_rest_api/movie_rest_api.dart';
+import '/features/dashboard/data/datasource/movie_remote_data_source.dart';
+import '/features/dashboard/data/datasource/movie_remote_data_source_impl.dart';
+import '/features/dashboard/data/repositories/movie_repository_impl.dart';
+import '/features/dashboard/domain/repositories/movie_repository.dart';
+import '/features/dashboard/presentation/bloc/movie_bloc.dart';
+import '/features/dashboard/domain/usecases/get_movies_usecase.dart';
+import '/features/dashboard/domain/usecases/get_favorite_movies_usecase.dart';
+import '/features/dashboard/domain/usecases/favorite_movie_usecase.dart';
 
 final sl = GetIt.instance;
 
 Future<void> initServiceLocator() async {
-  final sharedPrefsService = SharedPreferencesService();
-  await sharedPrefsService.init();
+  final secureStorageService = SecureStorageService();
+  await secureStorageService.init();
 
   sl.registerLazySingleton(() => AppRouter());
 
   sl.registerLazySingleton(() => SessionEntity());
 
-  sl.registerFactory(
+  sl.registerLazySingleton(
     () => AuthBloc(
       loginUseCase: sl(),
       registerUseCase: sl(),
@@ -42,7 +51,7 @@ Future<void> initServiceLocator() async {
     ),
   );
 
-  sl.registerFactory(() => ThemeCubit(repository: sl()));
+  sl.registerLazySingleton(() => ThemeCubit(repository: sl()));
 
   sl.registerLazySingleton(() => LoginUseCase(sl()));
   sl.registerLazySingleton(() => RegisterUseCase(sl()));
@@ -65,9 +74,26 @@ Future<void> initServiceLocator() async {
     () => ThemeLocalDataSourceImpl(localStorageService: sl()),
   );
 
+  sl.registerLazySingleton<MovieRemoteDataSource>(
+    () => MovieRemoteDataSourceImpl(api: sl(), sessionEntity: sl()),
+  );
+
+  sl.registerLazySingleton<MovieRepository>(
+    () => MovieRepositoryImpl(remoteDataSource: sl()),
+  );
+
+  sl.registerLazySingleton(
+    () => MovieBloc(movieRepository: sl()),
+  );
+
+  sl.registerLazySingleton(() => GetMoviesUseCase(sl()));
+  sl.registerLazySingleton(() => GetFavoriteMoviesUseCase(sl()));
+  sl.registerLazySingleton(() => FavoriteMovieUseCase(sl()));
+
   sl.registerLazySingleton(() => DioConfig.instance);
   sl.registerLazySingleton<ParseErrorLogger>(() => ErrorLogger());
   sl.registerLazySingleton(() => AuthRestApi(sl(), errorLogger: sl()));
+  sl.registerLazySingleton(() => MovieRestApi(sl(), errorLogger: sl()));
 
-  sl.registerLazySingleton<LocalStorageService>(() => sharedPrefsService);
+  sl.registerLazySingleton<LocalStorageService>(() => secureStorageService);
 }
