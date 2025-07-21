@@ -28,6 +28,8 @@ class SelectPhotoCubit extends Cubit<SelectPhotoState> {
       final pickedFile = await picker.pickImage(source: ImageSource.gallery);
       if (pickedFile != null) {
         emit(PhotoSelected(File(pickedFile.path)));
+      } else {
+        emit(SelectPhotoInitial());
       }
     } catch (e) {
       emit(PhotoSelectFailure(e.toString()));

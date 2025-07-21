@@ -45,6 +45,7 @@ class MyApp extends StatelessWidget {
     return BlocBuilder<ThemeCubit, ThemeMode>(
       builder: (context, themeMode) {
         return MaterialApp.router(
+          debugShowCheckedModeBanner: false,
           title: 'SinFlix',
           routerConfig: sl<AppRouter>().config(),
           localizationsDelegates: context.localizationDelegates,

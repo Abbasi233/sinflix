@@ -57,12 +57,10 @@ class _UploadPhotoView extends StatelessWidget {
       body: SafeArea(
         child: BlocConsumer<SelectPhotoCubit, SelectPhotoState>(
           listener: (context, state) {
+            LoadingWidget.hide();
             if (state is PhotoSelectLoading) {
               LoadingWidget.show(context);
-            } else if (state is PhotoSelected) {
-              LoadingWidget.hide();
             } else if (state is PhotoSelectFailure) {
-              LoadingWidget.hide();
               context.showSnackBar(state.message, isError: true);
             }
           },

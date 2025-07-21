@@ -7,6 +7,7 @@ import '../../../../core/widgets/refresh_indicator.dart';
 import '../../domain/entities/movie_entity.dart';
 import '../bloc/movie_bloc.dart';
 import '../../../theme/presentation/bloc/theme_cubit.dart';
+import '../widgets/movie_item.dart';
 
 @RoutePage()
 class HomePage extends StatefulWidget {
@@ -69,12 +70,21 @@ class _HomePageState extends State<HomePage> {
                   return const Center(child: Text('Film bulunamadı.'));
                 }
                 return ListView.builder(
+                  padding: const EdgeInsets.only(bottom: 16),
                   itemCount: movies.length,
                   itemBuilder: (context, index) {
                     final movie = movies[index];
-                    return ListTile(
-                      title: Text(movie.title),
-                      subtitle: Text(movie.year.toString()),
+                    return MovieItem(
+                      movie: movie,
+                      onTap: () {
+                        // Film detay sayfasına yönlendirme
+                      },
+                      onFavoriteTap: () {
+                        // Favori ekleme/çıkarma işlemi
+                        context.read<MovieBloc>().add(
+                          FavoriteMovieEvent(movie.id),
+                        );
+                      },
                     );
                   },
                 );

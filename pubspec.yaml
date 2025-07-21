@@ -34,6 +34,7 @@ dependencies:
   pull_to_refresh: ^2.0.0
   easy_localization: ^3.0.7+1
   cached_network_image: ^3.4.1
+  flutter_native_splash: ^2.4.6
 
   # Firebase
   firebase_analytics: ^11.5.2
@@ -89,3 +90,10 @@ flutter:
         - asset: assets/fonts/Euclid-Circular-A-Bold-Italic.ttf
           weight: 700
           style: italic 
+
+flutter_native_splash:
+  background_image: "assets/images/SinFlixSplash.png"
+  android_12:
+    color: "#000000"
+
+  ios: false
