@@ -36,6 +36,7 @@ import '/features/dashboard/data/datasource/tmdb_remote_data_source.dart';
 import '/features/dashboard/data/datasource/tmdb_remote_data_source_impl.dart';
 import '/features/dashboard/domain/usecases/get_tmdb_poster_url_usecase.dart';
 import 'package:sinflix/core/services/logger_service.dart';
+import 'package:sinflix/core/services/analytics_service.dart';
 
 final sl = GetIt.instance;
 
@@ -106,4 +107,5 @@ Future<void> initServiceLocator() async {
   );
   sl.registerLazySingleton(() => GetTmdbPosterUrlUseCase(sl()));
   sl.registerLazySingleton<LoggerService>(() => LoggerServiceImpl());
+  sl.registerLazySingleton<AnalyticsService>(() => AnalyticsServiceImpl());
 }

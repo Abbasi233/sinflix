@@ -136,7 +136,7 @@ mixin ProfilePageMixin {
           Text(
             'profile.no_favorites'.tr(),
             style: context.textTheme.bodyMedium?.copyWith(
-              color: context.textTheme.bodyMedium?.color?.withOpacity(0.7),
+              color: context.textTheme.bodyMedium?.color?.withValues(alpha: 0.7),
               fontWeight: FontWeight.w500,
             ),
             textAlign: TextAlign.center,

@@ -16,6 +16,7 @@ import '/core/widgets/refresh_indicator.dart';
 import '../widgets/special_offer_bottom_sheet.dart';
 import '/features/auth/presentation/bloc/auth_bloc.dart';
 import '/features/dashboard/presentation/mixin/profile_page_mixin.dart';
+import '/core/services/analytics_service.dart';
 
 @RoutePage()
 class ProfilePage extends StatefulWidget {
@@ -135,6 +136,7 @@ class _ProfilePageState extends State<ProfilePage> with ProfilePageMixin {
   }
 
   void _showLimitedOfferBottomSheet() {
+    sl<AnalyticsService>().logEvent('special_offer_clicked');
     showGeneralDialog(
       context: context,
       barrierColor: Colors.black.withValues(alpha: 0.3),

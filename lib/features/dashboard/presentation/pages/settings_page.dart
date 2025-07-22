@@ -88,7 +88,7 @@ class _SettingsPageState extends State<SettingsPage> {
               children: [
                 Text(
                   'SinFlix 2025'.tr(),
-                  style: context.textTheme.bodyMedium?.copyWith(color: context.textTheme.bodyMedium?.color?.withOpacity(0.7)),
+                  style: context.textTheme.bodyMedium?.copyWith(color: context.textTheme.bodyMedium?.color?.withValues(alpha: 0.7)),
                   textAlign: TextAlign.center,
                 ),
               ],

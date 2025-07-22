@@ -46,7 +46,7 @@ class AppErrorWidget extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: theme.colorScheme.errorContainer.withOpacity(0.1),
+              color: theme.colorScheme.errorContainer.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(
@@ -72,7 +72,7 @@ class AppErrorWidget extends StatelessWidget {
           Text(
             messageKey?.tr() ?? 'error.something_went_wrong'.tr(),
             style: theme.textTheme.bodyMedium?.copyWith(
-              color: theme.colorScheme.onSurface.withOpacity(0.7),
+              color: theme.colorScheme.onSurface.withValues(alpha: 0.7),
             ),
             textAlign: TextAlign.center,
             maxLines: 3,

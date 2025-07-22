@@ -4,6 +4,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:sinflix/features/dashboard/presentation/bloc/movie_bloc.dart';
+import 'package:sinflix/features/dashboard/presentation/pages/full_screen_image_viewer.dart';
 
 import '/core/colors.dart';
 import '/core/extensions.dart';
@@ -422,11 +423,23 @@ class _MovieDetailPageState extends State<MovieDetailPage> {
                               scrollDirection: Axis.horizontal,
                               itemCount: widget.movie.images!.length,
                               separatorBuilder: (_, _) => const SizedBox(width: 8),
-                              itemBuilder: (context, index) => ClipRRect(
-                                borderRadius: BorderRadius.circular(8),
-                                child: Image.network(
-                                  widget.movie.images![index],
-                                  fit: BoxFit.fitHeight,
+                              itemBuilder: (context, index) => GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (_) => FullScreenImageViewer(
+                                        images: widget.movie.images!,
+                                        initialIndex: index,
+                                      ),
+                                    ),
+                                  );
+                                },
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: Image.network(
+                                    widget.movie.images![index],
+                                    fit: BoxFit.fitHeight,
+                                  ),
                                 ),
                               ),
                             ),

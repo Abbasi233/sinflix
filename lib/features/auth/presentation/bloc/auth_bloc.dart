@@ -12,6 +12,7 @@ import '../../domain/entities/login_entity.dart';
 import '../../domain/entities/register_entity.dart';
 import '../../domain/entities/upload_photo_entity.dart';
 import '/core/services/logger_service.dart';
+import '/core/services/analytics_service.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -59,6 +60,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           photoUrl: loginEntity.photoUrl,
           token: loginEntity.token,
         );
+        sl<AnalyticsService>().logEvent('login_success', parameters: {'user_id': loginEntity.id, 'email': loginEntity.email});
         emit(LoginSuccess(loginEntity));
       },
     );
@@ -88,6 +90,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           photoUrl: registerEntity.photoUrl,
           token: registerEntity.token,
         );
+        sl<AnalyticsService>().logEvent('register_success', parameters: {'user_id': registerEntity.id, 'email': registerEntity.email});
         emit(RegisterSuccess(registerEntity));
       },
     );

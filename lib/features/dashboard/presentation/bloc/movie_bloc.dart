@@ -6,6 +6,7 @@ import '/features/dashboard/domain/entities/movie_entity.dart';
 import '/features/dashboard/domain/repositories/movie_repository.dart';
 import '/core/services/logger_service.dart';
 import '/core/service_locator.dart';
+import '/core/services/analytics_service.dart';
 
 part 'movie_event.dart';
 part 'movie_state.dart';
@@ -89,8 +90,10 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
       (isFavorited) {
         if (isFavorited) {
           _movies.firstWhere((movie) => movie.id == event.movieId).isFavorite = true;
+          sl<AnalyticsService>().logEvent('movie_favorited', parameters: {'movie_id': event.movieId});
         } else {
           _movies.firstWhere((movie) => movie.id == event.movieId).isFavorite = false;
+          sl<AnalyticsService>().logEvent('movie_unfavorited', parameters: {'movie_id': event.movieId});
         }
         emit(MovieFavorited(_movies, event.movieId, isFavorited));
       },

@@ -206,7 +206,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         TextSpan(
                           text: 'register.have_account'.tr(),
                           style: context.textTheme.bodySmall?.copyWith(
-                            color: context.textTheme.bodySmall?.color?.withOpacity(0.5),
+                            color: context.textTheme.bodySmall?.color?.withValues(alpha: 0.5),
                           ),
                           children: [
                             const WidgetSpan(child: Text('  ')),

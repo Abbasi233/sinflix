@@ -13,7 +13,6 @@ dependencies:
   # Data
   dio: ^5.4.1
   http: ^1.4.0
-  dartz: ^0.10.1
   get_it: ^8.0.3
   retrofit: ^4.6.0
   equatable: ^2.0.7
@@ -22,11 +21,12 @@ dependencies:
   
   # Navigation
   auto_route: ^10.1.0+1
-  flutter_dotenv: ^5.2.1
-  flutter_secure_storage: ^9.2.2
 
   # Infrastructure
+  dartz: ^0.10.1
   logger: ^2.6.1
+  flutter_dotenv: ^5.2.1
+  flutter_secure_storage: ^9.2.2
   
   # UI
   gap: ^3.0.1
