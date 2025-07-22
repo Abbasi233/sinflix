@@ -18,8 +18,8 @@ import '../widgets/oauth_buttons.dart';
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
-  final emailController = TextEditingController(text: "test@nodelabs.com");
-  final passwordController = TextEditingController(text: "123123");
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
