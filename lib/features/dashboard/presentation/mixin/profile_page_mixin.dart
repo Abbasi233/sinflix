@@ -47,59 +47,9 @@ mixin ProfilePageMixin {
     );
   }
 
-  Widget buildProfileShimmer(BuildContext context) {
-    return Row(
-      spacing: 10,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        // Profil resmi shimmer
-        ClipOval(
-          child: Shimmer.fromColors(
-            baseColor: Colors.grey[400]!,
-            highlightColor: Colors.grey[100]!,
-            period: const Duration(milliseconds: 800),
-            child: Container(width: 62, height: 62, color: Colors.white),
-          ),
-        ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // İsim shimmer
-              Shimmer.fromColors(
-                baseColor: Colors.grey[400]!,
-                highlightColor: Colors.grey[100]!,
-                period: const Duration(milliseconds: 800),
-                child: Container(width: 100, height: 18, color: Colors.white, margin: const EdgeInsets.only(bottom: 8)),
-              ),
-              // ID shimmer
-              Shimmer.fromColors(
-                baseColor: Colors.grey[400]!,
-                highlightColor: Colors.grey[100]!,
-                period: const Duration(milliseconds: 800),
-                child: Container(width: 60, height: 14, color: Colors.white),
-              ),
-            ],
-          ),
-        ),
-        // Buton shimmer
-        Shimmer.fromColors(
-          baseColor: Colors.grey[400]!,
-          highlightColor: Colors.grey[100]!,
-          period: const Duration(milliseconds: 800),
-          child: Container(
-            width: 80,
-            height: 32,
-            decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), color: Colors.white),
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget buildFavoriteFilmShimmerItem(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
           child: ClipRRect(
@@ -112,15 +62,29 @@ mixin ProfilePageMixin {
           ),
         ),
         const SizedBox(height: 8),
-        Shimmer.fromColors(
-          baseColor: Colors.grey.shade300,
-          highlightColor: Colors.grey.shade100,
-          child: Container(height: 16, color: Colors.white, margin: const EdgeInsets.only(bottom: 4)),
+        SizedBox(
+          width: 80,
+
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: Shimmer.fromColors(
+              baseColor: Colors.grey.shade300,
+              highlightColor: Colors.grey.shade100,
+              child: Container(height: 16, color: Colors.white, margin: const EdgeInsets.only(bottom: 4)),
+            ),
+          ),
         ),
-        Shimmer.fromColors(
-          baseColor: Colors.grey.shade300,
-          highlightColor: Colors.grey.shade100,
-          child: Container(height: 12, color: Colors.white),
+        const SizedBox(height: 4),
+        SizedBox(
+          width: 50,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: Shimmer.fromColors(
+              baseColor: Colors.grey.shade300,
+              highlightColor: Colors.grey.shade100,
+              child: Container(height: 12, color: Colors.white),
+            ),
+          ),
         ),
       ],
     );
