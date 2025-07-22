@@ -17,6 +17,7 @@ class DashboardPage extends StatelessWidget {
       routes: const [
         HomeRoute(),
         ProfileRoute(),
+        MovieDetailRouterRoute(),
       ],
       bottomNavigationBuilder: (_, tr) {
         return SafeArea(

@@ -92,10 +92,15 @@ class MovieDetailRoute extends PageRouteInfo<MovieDetailRouteArgs> {
   MovieDetailRoute({
     Key? key,
     required MovieEntity movie,
+    required String moviePoster,
     List<PageRouteInfo>? children,
   }) : super(
          MovieDetailRoute.name,
-         args: MovieDetailRouteArgs(key: key, movie: movie),
+         args: MovieDetailRouteArgs(
+           key: key,
+           movie: movie,
+           moviePoster: moviePoster,
+         ),
          initialChildren: children,
        );
 
@@ -105,32 +110,60 @@ class MovieDetailRoute extends PageRouteInfo<MovieDetailRouteArgs> {
     name,
     builder: (data) {
       final args = data.argsAs<MovieDetailRouteArgs>();
-      return MovieDetailPage(key: args.key, movie: args.movie);
+      return MovieDetailPage(
+        key: args.key,
+        movie: args.movie,
+        moviePoster: args.moviePoster,
+      );
     },
   );
 }
 
 class MovieDetailRouteArgs {
-  const MovieDetailRouteArgs({this.key, required this.movie});
+  const MovieDetailRouteArgs({
+    this.key,
+    required this.movie,
+    required this.moviePoster,
+  });
 
   final Key? key;
 
   final MovieEntity movie;
 
+  final String moviePoster;
+
   @override
   String toString() {
-    return 'MovieDetailRouteArgs{key: $key, movie: $movie}';
+    return 'MovieDetailRouteArgs{key: $key, movie: $movie, moviePoster: $moviePoster}';
   }
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
     if (other is! MovieDetailRouteArgs) return false;
-    return key == other.key && movie == other.movie;
+    return key == other.key &&
+        movie == other.movie &&
+        moviePoster == other.moviePoster;
   }
 
   @override
-  int get hashCode => key.hashCode ^ movie.hashCode;
+  int get hashCode => key.hashCode ^ movie.hashCode ^ moviePoster.hashCode;
+}
+
+/// generated route for
+/// [MovieDetailRouterPage]
+class MovieDetailRouterRoute extends PageRouteInfo<void> {
+  const MovieDetailRouterRoute({List<PageRouteInfo>? children})
+    : super(MovieDetailRouterRoute.name, initialChildren: children);
+
+  static const String name = 'MovieDetailRouterRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const MovieDetailRouterPage();
+    },
+  );
 }
 
 /// generated route for

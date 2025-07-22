@@ -10,7 +10,7 @@ import '../../domain/usecases/get_tmdb_poster_url_usecase.dart';
 class MovieListItem extends StatelessWidget {
   final MovieEntity? movie;
   final bool isFavorited;
-  final VoidCallback? onTap;
+  final void Function(String?)? onTap;
   final VoidCallback? onFavoriteTap;
 
   const MovieListItem({
@@ -25,10 +25,11 @@ class MovieListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String? moviePoster;
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: InkWell(
-        onTap: onTap,
+        onTap: () => onTap?.call(moviePoster),
         borderRadius: BorderRadius.circular(12),
         child: Padding(
           padding: const EdgeInsets.all(12),
@@ -54,8 +55,10 @@ class MovieListItem extends StatelessWidget {
                               );
                             }
 
+                            moviePoster = snapshot.data;
+
                             return CachedNetworkImage(
-                              imageUrl: snapshot.data!,
+                              imageUrl: moviePoster!,
                               fit: BoxFit.cover,
                               placeholder: (context, url) => shimmerBox(width: 80, height: 120),
                               errorWidget: (context, url, error) => Container(

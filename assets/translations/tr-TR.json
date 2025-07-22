@@ -55,7 +55,23 @@
     },
     "dashboard": {
         "home": "Anasayfa",
-        "profile": "Profil"
+        "profile": "Profil",
+        "movie_detail": {
+            "imdb": "IMDB:",
+            "metascore": "Metascore:",
+            "imdb_votes": "IMDB Oyları:",
+            "age_rating": "Yaş Sınırı:",
+            "release_date": "Vizyon Tarihi:",
+            "director": "Yönetmen:",
+            "writer": "Senarist:",
+            "actors": "Oyuncular:",
+            "description": "Açıklama:",
+            "language": "Dil:",
+            "country": "Ülke:",
+            "awards": "Ödüller:",
+            "coming_soon": "Çok Yakında",
+            "extra_images": "Ek Görseller:"
+        }
     },
     "profile": {
         "title": "Profil Detayı",
@@ -86,7 +102,7 @@
     "settings": {
         "title": "Ayarlar",
         "language": "Dil",
-        "theme": "Tema",
+        "theme": "Koyu Tema",
         "logout": "Çıkış Yap"
     }
 }

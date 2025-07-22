@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/widgets.dart';
+import 'package:sinflix/features/dashboard/presentation/pages/movie_detail_router.dart';
 
 import '/features/auth/presentation/pages/login_page.dart';
 import '/features/auth/presentation/pages/register_page.dart';
@@ -28,10 +29,16 @@ class AppRouter extends RootStackRouter {
       children: [
         AutoRoute(path: 'homepage', page: HomeRoute.page, initial: true),
         AutoRoute(path: 'profile', page: ProfileRoute.page),
+        AutoRoute(
+          path: 'movie-detail',
+          page: MovieDetailRouterRoute.page,
+          children: [
+            AutoRoute(path: '', page: MovieDetailRoute.page, initial: true),
+          ],
+        ),
       ],
     ),
     AutoRoute(path: '/settings', page: SettingsRoute.page),
-    AutoRoute(path: '/movie-detail', page: MovieDetailRoute.page),
     RedirectRoute(path: '*', redirectTo: '/'),
   ];
 

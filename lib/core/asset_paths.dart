@@ -10,6 +10,7 @@ class AssetPaths {
   static const String profileImg = 'assets/images/icons/profile.png';
   static const String homeImg = 'assets/images/icons/home.png';
   static const String diamondImg = 'assets/images/icons/diamond.png';
+  static const String logoImg = 'assets/images/icons/logo.png';
 
   static const String bonusBackgroundSpot = 'assets/images/bonus/background_spot.png';
   static const String bonusBackground = 'assets/images/bonus/background.png';

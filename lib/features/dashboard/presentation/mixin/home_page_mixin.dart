@@ -26,8 +26,10 @@ mixin HomePageMixin {
         return MovieListItem(
           movie: movie,
           isFavorited: movieId == movie.id && isFavorited,
-          onTap: () {
-            context.router.push(MovieDetailRoute(movie: movie));
+          onTap: (moviePoster) {
+            context.router.push(
+              MovieDetailRoute(movie: movie, moviePoster: moviePoster ?? ''),
+            );
           },
           onFavoriteTap: () {
             context.read<MovieBloc>().add(FavoriteMovieEvent(movie.id));

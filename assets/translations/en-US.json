@@ -55,7 +55,23 @@
     },
     "dashboard": {
         "home": "Home",
-        "profile": "Profile"
+        "profile": "Profile",
+        "movie_detail": {
+            "imdb": "IMDB:",
+            "metascore": "Metascore:",
+            "imdb_votes": "IMDB Votes:",
+            "age_rating": "Age Rating:",
+            "release_date": "Release Date:",
+            "director": "Director:",
+            "writer": "Writer:",
+            "actors": "Actors:",
+            "description": "Description:",
+            "language": "Language:",
+            "country": "Country:",
+            "awards": "Awards:",
+            "coming_soon": "Coming Soon",
+            "extra_images": "Extra Images:"
+        }
     },
     "profile": {
         "title": "Profile Details",
@@ -86,7 +102,7 @@
     "settings": {
         "title": "Settings",
         "language": "Language",
-        "theme": "Theme",
+        "theme": "Dark Theme",
         "logout": "Logout"
     }
 }
