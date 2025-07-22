@@ -4,6 +4,8 @@ import 'package:sinflix/core/error/failures.dart';
 
 import '/features/dashboard/domain/entities/movie_entity.dart';
 import '/features/dashboard/domain/repositories/movie_repository.dart';
+import '/core/services/logger_service.dart';
+import '/core/service_locator.dart';
 
 part 'movie_event.dart';
 part 'movie_state.dart';
@@ -27,7 +29,10 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     _currentPage = event.page;
     final result = await movieRepository.list(page: _currentPage);
     result.fold(
-      (failure) => emit(MovieError(failure.message)),
+      (failure) {
+        sl<LoggerService>().e('FetchMovies error:  ${failure.message}', error: failure);
+        emit(MovieError(failure.message));
+      },
       (movies) {
         _movies = movies;
         emit(MoviesLoaded(_movies, page: _currentPage));
@@ -44,6 +49,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     result.fold(
       (failure) {
         _isLoadingMore = false;
+        sl<LoggerService>().e('LoadMoreMovies error:  ${failure.message}', error: failure);
         emit(MovieError(failure.message));
       },
       (movies) {
@@ -66,7 +72,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
           emit(const FavoritesNotFound());
           return;
         }
-
+        sl<LoggerService>().e('FetchFavorites error:  ${failure.message}', error: failure);
         emit(MovieError(failure.message));
       },
       (movies) => emit(FavoritesLoaded(movies)),
@@ -75,13 +81,19 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
 
   Future<void> _onFavoriteMovie(FavoriteMovieEvent event, Emitter<MovieState> emit) async {
     final result = await movieRepository.favorite(event.movieId);
-    result.fold((failure) => emit(MovieError(failure.message)), (isFavorited) {
-      if (isFavorited) {
-        _movies.firstWhere((movie) => movie.id == event.movieId).isFavorite = true;
-      } else {
-        _movies.firstWhere((movie) => movie.id == event.movieId).isFavorite = false;
-      }
-      emit(MovieFavorited(_movies, event.movieId, isFavorited));
-    });
+    result.fold(
+      (failure) {
+        sl<LoggerService>().e('FavoriteMovie error:  ${failure.message}', error: failure);
+        emit(MovieError(failure.message));
+      },
+      (isFavorited) {
+        if (isFavorited) {
+          _movies.firstWhere((movie) => movie.id == event.movieId).isFavorite = true;
+        } else {
+          _movies.firstWhere((movie) => movie.id == event.movieId).isFavorite = false;
+        }
+        emit(MovieFavorited(_movies, event.movieId, isFavorited));
+      },
+    );
   }
 }

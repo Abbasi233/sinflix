@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '/core/service_locator.dart';
@@ -12,6 +11,7 @@ import '../../domain/usecases/upload_photo_usecase.dart';
 import '../../domain/entities/login_entity.dart';
 import '../../domain/entities/register_entity.dart';
 import '../../domain/entities/upload_photo_entity.dart';
+import '/core/services/logger_service.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -47,7 +47,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
 
     result.fold(
-      (failure) => emit(AuthError(failure.message)),
+      (failure) {
+        sl<LoggerService>().e('Login error:  ${failure.message}', error: failure);
+        emit(AuthError(failure.message));
+      },
       (loginEntity) {
         sl<SessionEntity>().update(
           id: loginEntity.id,
@@ -56,7 +59,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           photoUrl: loginEntity.photoUrl,
           token: loginEntity.token,
         );
-
         emit(LoginSuccess(loginEntity));
       },
     );
@@ -74,7 +76,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
 
     result.fold(
-      (failure) => emit(AuthError(failure.message)),
+      (failure) {
+        sl<LoggerService>().e('Register error:  ${failure.message}', error: failure);
+        emit(AuthError(failure.message));
+      },
       (registerEntity) {
         sl<SessionEntity>().update(
           id: registerEntity.id,
@@ -83,7 +88,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           photoUrl: registerEntity.photoUrl,
           token: registerEntity.token,
         );
-
         emit(RegisterSuccess(registerEntity));
       },
     );
@@ -95,7 +99,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final result = await getProfileUseCase(NoParams());
 
     result.fold(
-      (failure) => emit(AuthError(failure.message)),
+      (failure) {
+        sl<LoggerService>().e('GetProfile error:  ${failure.message}', error: failure);
+        emit(AuthError(failure.message));
+      },
       (profileEntity) => emit(ProfileLoaded(profileEntity)),
     );
   }
@@ -108,7 +115,10 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     );
 
     result.fold(
-      (failure) => emit(AuthError(failure.message)),
+      (failure) {
+        sl<LoggerService>().e('UploadPhoto error:  ${failure.message}', error: failure);
+        emit(AuthError(failure.message));
+      },
       (uploadEntity) {
         sl<SessionEntity>().update(
           id: uploadEntity.id,
@@ -128,7 +138,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     await sl<SessionEntity>().loadFromStorage();
 
     if (!sl<SessionEntity>().isAuthenticated) {
-      log("Token bulunamadı");
+      sl<LoggerService>().w('Token bulunamadı');
       emit(const AuthError('Token bulunamadı'));
       return;
     }
@@ -138,7 +148,6 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     result.fold(
       (failure) {
         sl<SessionEntity>().clear();
-        log("Token geçersiz, lütfen tekrar giriş yapın");
         emit(const AuthError('Token geçersiz, lütfen tekrar giriş yapın'));
       },
       (profileEntity) {

@@ -35,6 +35,7 @@ import '/features/dashboard/domain/usecases/favorite_movie_usecase.dart';
 import '/features/dashboard/data/datasource/tmdb_remote_data_source.dart';
 import '/features/dashboard/data/datasource/tmdb_remote_data_source_impl.dart';
 import '/features/dashboard/domain/usecases/get_tmdb_poster_url_usecase.dart';
+import 'package:sinflix/core/services/logger_service.dart';
 
 final sl = GetIt.instance;
 
@@ -104,4 +105,5 @@ Future<void> initServiceLocator() async {
     () => TmdbRemoteDataSourceImpl(apiKey: dotenv.env['TMDB_API_KEY'] ?? ''),
   );
   sl.registerLazySingleton(() => GetTmdbPosterUrlUseCase(sl()));
+  sl.registerLazySingleton<LoggerService>(() => LoggerServiceImpl());
 }

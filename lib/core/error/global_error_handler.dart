@@ -5,6 +5,8 @@ import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 import '../widgets/error_widget.dart';
+import '../service_locator.dart';
+import '../services/logger_service.dart';
 
 class GlobalErrorHandler {
   static GlobalKey<NavigatorState>? _navigatorKey;
@@ -132,13 +134,7 @@ class GlobalErrorHandler {
     bool fatal = false,
   }) {
     try {
-      log(
-        'Error recorded: $error',
-        name: 'GlobalErrorHandler',
-        error: error,
-        stackTrace: stackTrace,
-      );
-
+      sl<LoggerService>().e('Error recorded: $error', error: error, stackTrace: stackTrace);
       FirebaseCrashlytics.instance.recordError(
         error,
         stackTrace,
@@ -146,13 +142,13 @@ class GlobalErrorHandler {
         fatal: fatal,
         information: additionalData?.entries.map((e) => DiagnosticsProperty(e.key, e.value)).toList() ?? [],
       );
-
       if (additionalData != null) {
         for (final entry in additionalData.entries) {
           FirebaseCrashlytics.instance.setCustomKey(entry.key, entry.value);
         }
       }
-    } catch (e) {
+    } catch (e, s) {
+      sl<LoggerService>().e('Failed to record error to Crashlytics', error: e, stackTrace: s);
       log('Failed to record error to Crashlytics: $e', name: 'GlobalErrorHandler');
     }
   }
@@ -213,14 +209,15 @@ class GlobalErrorHandler {
 
   static void logEvent(String eventName, {Map<String, dynamic>? parameters}) {
     try {
-      FirebaseCrashlytics.instance.log('$eventName: ${parameters?.toString() ?? ''}');
-
+      sl<LoggerService>().i('Crashlytics event: $eventName', error: parameters);
+      FirebaseCrashlytics.instance.log('$eventName:  ${parameters?.toString() ?? ''}');
       if (parameters != null) {
         for (final entry in parameters.entries) {
           FirebaseCrashlytics.instance.setCustomKey(entry.key, entry.value);
         }
       }
-    } catch (e) {
+    } catch (e, s) {
+      sl<LoggerService>().e('Failed to log event to Crashlytics', error: e, stackTrace: s);
       log('Failed to log event to Crashlytics: $e', name: 'GlobalErrorHandler');
     }
   }
@@ -231,16 +228,16 @@ class GlobalErrorHandler {
     String? username,
   }) {
     try {
+      sl<LoggerService>().i('Crashlytics setUserInfo: $userId, $email, $username');
       FirebaseCrashlytics.instance.setUserIdentifier(userId);
-
       if (email != null) {
         FirebaseCrashlytics.instance.setCustomKey('user_email', email);
       }
-
       if (username != null) {
         FirebaseCrashlytics.instance.setCustomKey('user_name', username);
       }
-    } catch (e) {
+    } catch (e, s) {
+      sl<LoggerService>().e('Failed to set user info in Crashlytics', error: e, stackTrace: s);
       log('Failed to set user info in Crashlytics: $e', name: 'GlobalErrorHandler');
     }
   }
