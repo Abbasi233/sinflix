@@ -1,3 +1,5 @@
+Normalde .env gibi hassas dosyalar track edilmez ancak inceleme aşamasında sorun yaşamamanız için bu seferlik eklendi :)
+
 # sinflix
 
 A new Flutter project.
