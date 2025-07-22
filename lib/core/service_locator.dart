@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:retrofit/error_logger.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:sinflix/core/entities/session_entity.dart';
 
 import '/core/network/dio_config.dart';
@@ -31,6 +32,9 @@ import '/features/dashboard/presentation/bloc/movie_bloc.dart';
 import '/features/dashboard/domain/usecases/get_movies_usecase.dart';
 import '/features/dashboard/domain/usecases/get_favorite_movies_usecase.dart';
 import '/features/dashboard/domain/usecases/favorite_movie_usecase.dart';
+import '/features/dashboard/data/datasource/tmdb_remote_data_source.dart';
+import '/features/dashboard/data/datasource/tmdb_remote_data_source_impl.dart';
+import '/features/dashboard/domain/usecases/get_tmdb_poster_url_usecase.dart';
 
 final sl = GetIt.instance;
 
@@ -96,4 +100,8 @@ Future<void> initServiceLocator() async {
   sl.registerLazySingleton(() => MovieRestApi(sl(), errorLogger: sl()));
 
   sl.registerLazySingleton<LocalStorageService>(() => secureStorageService);
+  sl.registerLazySingleton<TmdbRemoteDataSource>(
+    () => TmdbRemoteDataSourceImpl(apiKey: dotenv.env['TMDB_API_KEY'] ?? ''),
+  );
+  sl.registerLazySingleton(() => GetTmdbPosterUrlUseCase(sl()));
 }

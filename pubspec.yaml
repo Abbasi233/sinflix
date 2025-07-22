@@ -12,11 +12,13 @@ dependencies:
 
   # Data
   dio: ^5.4.1
+  http: ^1.4.0
   dartz: ^0.10.1
   get_it: ^8.0.3
   retrofit: ^4.6.0
   equatable: ^2.0.7
   flutter_bloc: ^9.1.1
+  flutter_dotenv: ^5.2.1
   json_annotation: ^4.9.0
   flutter_secure_storage: ^9.2.2
   
@@ -57,6 +59,7 @@ flutter:
   uses-material-design: true
 
   assets:
+    - .env
     - assets/images/
     - assets/images/icons/
     - assets/images/bonus/

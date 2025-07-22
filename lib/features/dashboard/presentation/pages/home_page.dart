@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:auto_route/auto_route.dart';
-import '../../../../features/theme/presentation/bloc/theme_cubit.dart';
-import '../../../../core/navigation/app_router.dart';
-import '../../../../core/widgets/refresh_indicator.dart';
-import '../../domain/entities/movie_entity.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
+
 import '../bloc/movie_bloc.dart';
-import '../../../theme/presentation/bloc/theme_cubit.dart';
-import '../widgets/movie_item.dart';
+import '../mixin/home_page_mixin.dart';
+import '/core/widgets/refresh_indicator.dart';
 
 @RoutePage()
 class HomePage extends StatefulWidget {
@@ -17,7 +15,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with HomePageMixin {
   @override
   void initState() {
     super.initState();
@@ -25,75 +23,59 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _onRefresh() async {
-    context.read<MovieBloc>().add(const FetchMoviesEvent());
+    context.read<MovieBloc>().add(const FetchMoviesEvent(page: 1));
+  }
+
+  Future<bool> _onLoading() async {
+    final bloc = context.read<MovieBloc>();
+    final state = bloc.state;
+
+    if (state is! MoviesLoaded) return false;
+
+    bloc.add(LoadMoreMoviesEvent(state.page + 1));
+    return true;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Anasayfa'),
-        actions: [
-          PopupMenuButton<ThemeMode>(
-            icon: const Icon(Icons.brightness_6),
-            onSelected: (ThemeMode themeMode) {
-              context.read<ThemeCubit>().changeTheme(themeMode);
-            },
-            itemBuilder: (context) => [
-              const PopupMenuItem(
-                value: ThemeMode.light,
-                child: Text('Açık Tema'),
-              ),
-              const PopupMenuItem(
-                value: ThemeMode.dark,
-                child: Text('Koyu Tema'),
-              ),
-              const PopupMenuItem(
-                value: ThemeMode.system,
-                child: Text('Sistem'),
-              ),
-            ],
-          ),
-        ],
-      ),
-      body: BlocProvider<MovieBloc>(
-        create: (context) => BlocProvider.of<MovieBloc>(context),
-        child: AppRefreshIndicator(
-          onRefresh: _onRefresh,
-          child: BlocBuilder<MovieBloc, MovieState>(
-            builder: (context, state) {
-              if (state is MovieLoading) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (state is MoviesLoaded) {
-                final movies = state.movies;
-                if (movies.isEmpty) {
-                  return const Center(child: Text('Film bulunamadı.'));
-                }
-                return ListView.builder(
-                  padding: const EdgeInsets.only(bottom: 16),
-                  itemCount: movies.length,
-                  itemBuilder: (context, index) {
-                    final movie = movies[index];
-                    return MovieItem(
-                      movie: movie,
-                      onTap: () {
-                        // Film detay sayfasına yönlendirme
-                      },
-                      onFavoriteTap: () {
-                        // Favori ekleme/çıkarma işlemi
-                        context.read<MovieBloc>().add(
-                          FavoriteMovieEvent(movie.id),
-                        );
-                      },
-                    );
-                  },
-                );
-              } else if (state is MovieError) {
-                return Center(child: Text(state.message));
-              }
-              return const SizedBox.shrink();
-            },
-          ),
+      appBar: AppBar(title: Text('dashboard.home'.tr())),
+      body: AppRefreshIndicator(
+        onRefresh: _onRefresh,
+        onLoading: _onLoading,
+        child: BlocBuilder<MovieBloc, MovieState>(
+          buildWhen: (previous, current) {
+            switch (current) {
+              case MovieLoading():
+              case MovieError():
+              case MoviesLoaded():
+              case MovieFavorited():
+                return true;
+              default:
+                return false;
+            }
+          },
+          builder: (context, state) {
+            if (state is MovieLoading) return buildMovieShimmer();
+
+            if (state is MovieError) {
+              return Center(
+                child: Text(
+                  state.message.tr(),
+                  textAlign: TextAlign.center,
+                ),
+              );
+            }
+
+            switch (state) {
+              case MoviesLoaded(:final movies):
+                return buildMovieList(context, movies);
+              case MovieFavorited(:final movies, :final movieId, :final isFavorited):
+                return buildMovieList(context, movies, movieId: movieId, isFavorited: isFavorited);
+              default:
+                return const SizedBox.shrink();
+            }
+          },
         ),
       ),
     );

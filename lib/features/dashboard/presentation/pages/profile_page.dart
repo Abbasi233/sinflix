@@ -1,10 +1,9 @@
+import 'dart:ui';
 import 'package:gap/gap.dart';
 import 'package:flutter/material.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:sinflix/core/widgets/loading_widget.dart';
-import 'package:sinflix/core/widgets/refresh_indicator.dart';
 
 import '/core/asset_paths.dart';
 import '/core/colors.dart';
@@ -12,12 +11,12 @@ import '/core/extensions.dart';
 import '/core/service_locator.dart';
 import '/core/navigation/app_router.dart';
 import '/core/entities/session_entity.dart';
-import '/core/widgets/cached_circle_avatar_widget.dart';
-import '/features/auth/presentation/bloc/auth_bloc.dart';
-import '../widgets/favorite_film_item.dart';
-import '/features/theme/presentation/bloc/theme_cubit.dart';
+import '../bloc/movie_bloc.dart';
+import '/core/widgets/loading_widget.dart';
+import '/core/widgets/refresh_indicator.dart';
 import '../widgets/special_offer_bottom_sheet.dart';
-import 'dart:ui';
+import '/features/auth/presentation/bloc/auth_bloc.dart';
+import '/features/dashboard/presentation/mixin/profile_page_mixin.dart';
 
 @RoutePage()
 class ProfilePage extends StatefulWidget {
@@ -27,8 +26,14 @@ class ProfilePage extends StatefulWidget {
   State<ProfilePage> createState() => _ProfilePageState();
 }
 
-class _ProfilePageState extends State<ProfilePage> {
+class _ProfilePageState extends State<ProfilePage> with ProfilePageMixin {
   final sessionEntity = sl<SessionEntity>();
+
+  @override
+  void initState() {
+    super.initState();
+    context.read<MovieBloc>().add(const FetchFavoritesEvent());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -126,31 +131,44 @@ class _ProfilePageState extends State<ProfilePage> {
           padding: const EdgeInsets.symmetric(horizontal: 35, vertical: 16),
           child: AppRefreshIndicator(
             onRefresh: () async {
-              context.read<AuthBloc>().add(const GetProfileEvent());
+              context.read<MovieBloc>().add(const FetchFavoritesEvent());
             },
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildProfileInfo(),
+                  buildProfileInfo(context, sessionEntity),
                   const Gap(29),
                   Text('profile.favorite_movies'.tr(), style: context.textTheme.labelMedium),
                   const Gap(24),
-                  GridView.builder(
-                    itemCount: 10,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      childAspectRatio: 0.58,
-                      mainAxisSpacing: 16,
-                      crossAxisSpacing: 16,
-                    ),
-                    itemBuilder: (context, index) => FavoriteFilmItem(
-                      imageUrl: 'https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=400&q=80',
-                      filmName: 'Film $index',
-                      studioName: 'Studio $index',
-                    ),
+                  BlocBuilder<MovieBloc, MovieState>(
+                    buildWhen: (previous, current) {
+                      switch (current) {
+                        case FavoritesLoading():
+                        case FavoritesError():
+                        case FavoritesNotFound():
+                        case FavoritesLoaded():
+                          return true;
+                        default:
+                          return false;
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is FavoritesLoading) return const Center(child: CircularProgressIndicator());
+
+                      if (state is FavoritesError) return Center(child: Text(state.message.tr()));
+
+                      if (state is FavoritesNotFound) return buildNoFavorites(context);
+
+                      if (state is FavoritesLoaded) {
+                        final favorites = state.favorites;
+                        if (favorites.isEmpty) return buildNoFavorites(context);
+
+                        return buildFavorites(context, favorites);
+                      }
+
+                      return const SizedBox.shrink();
+                    },
                   ),
                 ],
               ),
@@ -158,42 +176,6 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _buildProfileInfo() {
-    return Row(
-      spacing: 10,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        CachedCircleAvatar(imageUrl: sessionEntity.photoUrl, radius: 31),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(sessionEntity.name ?? '~', style: context.textTheme.titleMedium),
-              Text(
-                "ID: ${sessionEntity.id?.substring(0, 6)}",
-                style: context.textTheme.bodySmall?.copyWith(
-                  color: context.textTheme.bodySmall?.color?.withValues(alpha: 0.5),
-                ),
-              ),
-            ],
-          ),
-        ),
-        ElevatedButton(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.accent,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(8),
-            ),
-          ),
-          onPressed: () {
-            context.router.push(const UploadPhotoRoute());
-          },
-          child: Text('profile.add_photo'.tr()),
-        ),
-      ],
     );
   }
 }

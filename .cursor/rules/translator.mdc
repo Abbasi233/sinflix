@@ -1,0 +1,7 @@
+---
+description: Dosyadaki harcoded Türkçe kelimeleri yakalayıp translate dosyasına atar.
+globs:
+alwaysApply: false
+---
+
+Bu dosyadaki harcoded Türkçe kelimeleri yakalayıp translate dosyasına aktar, daha sonra diğer dil dosyaları için çevirilerini yap.

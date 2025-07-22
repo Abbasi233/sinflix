@@ -22,7 +22,7 @@ class MovieEntity {
   final String response;
   final List<String>? images;
   final bool? comingSoon;
-  final bool? isFavorite;
+  bool? isFavorite;
 
   MovieEntity({
     required this.id,

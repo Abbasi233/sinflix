@@ -21,21 +21,24 @@ class DashboardPage extends StatelessWidget {
       bottomNavigationBuilder: (_, tr) {
         return SafeArea(
           top: false,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              BottomNavItem(
-                iconPath: AssetPaths.homeImg,
-                title: 'dashboard.home'.tr(),
-                onTap: () => tr.setActiveIndex(0),
-              ),
-              const Gap(16),
-              BottomNavItem(
-                iconPath: AssetPaths.profileImg,
-                title: 'dashboard.profile'.tr(),
-                onTap: () => tr.setActiveIndex(1),
-              ),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                BottomNavItem(
+                  iconPath: AssetPaths.homeImg,
+                  title: 'dashboard.home'.tr(),
+                  onTap: () => tr.setActiveIndex(0),
+                ),
+                const Gap(16),
+                BottomNavItem(
+                  iconPath: AssetPaths.profileImg,
+                  title: 'dashboard.profile'.tr(),
+                  onTap: () => tr.setActiveIndex(1),
+                ),
+              ],
+            ),
           ),
         );
       },

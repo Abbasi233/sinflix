@@ -22,9 +22,10 @@ class _MovieRestApi implements MovieRestApi {
   @override
   Future<HttpResponse<BaseResponse<MoviesResponseModel?>?>> list(
     String token,
+    int page,
   ) async {
     final _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{r'page': page};
     final _headers = <String, dynamic>{r'Authorization': token};
     _headers.removeWhere((k, v) => v == null);
     const Map<String, dynamic>? _data = null;
@@ -61,7 +62,7 @@ class _MovieRestApi implements MovieRestApi {
   }
 
   @override
-  Future<HttpResponse<BaseResponse<MoviesResponseModel?>?>> favorites(
+  Future<HttpResponse<BaseResponse<List<MovieModel>?>?>> favorites(
     String token,
   ) async {
     final _extra = <String, dynamic>{};
@@ -70,7 +71,7 @@ class _MovieRestApi implements MovieRestApi {
     _headers.removeWhere((k, v) => v == null);
     const Map<String, dynamic>? _data = null;
     final _options =
-        _setStreamType<HttpResponse<BaseResponse<MoviesResponseModel?>?>>(
+        _setStreamType<HttpResponse<BaseResponse<List<MovieModel>?>?>>(
           Options(method: 'GET', headers: _headers, extra: _extra)
               .compose(
                 _dio.options,
@@ -83,15 +84,19 @@ class _MovieRestApi implements MovieRestApi {
               ),
         );
     final _result = await _dio.fetch<Map<String, dynamic>?>(_options);
-    late BaseResponse<MoviesResponseModel?>? _value;
+    late BaseResponse<List<MovieModel>?>? _value;
     try {
       _value = _result.data == null
           ? null
-          : BaseResponse<MoviesResponseModel?>.fromJson(
+          : BaseResponse<List<MovieModel>?>.fromJson(
               _result.data!,
-              (json) => json == null
-                  ? null
-                  : MoviesResponseModel.fromJson(json as Map<String, dynamic>),
+              (json) => json is List<dynamic>
+                  ? json
+                        .map<MovieModel>(
+                          (i) => MovieModel.fromJson(i as Map<String, dynamic>),
+                        )
+                        .toList()
+                  : List.empty(),
             );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);
@@ -102,7 +107,7 @@ class _MovieRestApi implements MovieRestApi {
   }
 
   @override
-  Future<HttpResponse<BaseResponse<MoviesResponseModel?>?>> favorite(
+  Future<HttpResponse<BaseResponse<FavoriteResponseModel?>?>> favorite(
     String token,
     String movieId,
   ) async {
@@ -112,7 +117,7 @@ class _MovieRestApi implements MovieRestApi {
     _headers.removeWhere((k, v) => v == null);
     const Map<String, dynamic>? _data = null;
     final _options =
-        _setStreamType<HttpResponse<BaseResponse<MoviesResponseModel?>?>>(
+        _setStreamType<HttpResponse<BaseResponse<FavoriteResponseModel?>?>>(
           Options(method: 'POST', headers: _headers, extra: _extra)
               .compose(
                 _dio.options,
@@ -125,15 +130,17 @@ class _MovieRestApi implements MovieRestApi {
               ),
         );
     final _result = await _dio.fetch<Map<String, dynamic>?>(_options);
-    late BaseResponse<MoviesResponseModel?>? _value;
+    late BaseResponse<FavoriteResponseModel?>? _value;
     try {
       _value = _result.data == null
           ? null
-          : BaseResponse<MoviesResponseModel?>.fromJson(
+          : BaseResponse<FavoriteResponseModel?>.fromJson(
               _result.data!,
               (json) => json == null
                   ? null
-                  : MoviesResponseModel.fromJson(json as Map<String, dynamic>),
+                  : FavoriteResponseModel.fromJson(
+                      json as Map<String, dynamic>,
+                    ),
             );
     } on Object catch (e, s) {
       errorLogger?.logError(e, s, _options);

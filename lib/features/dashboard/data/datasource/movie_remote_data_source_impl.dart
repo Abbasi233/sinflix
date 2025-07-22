@@ -1,6 +1,8 @@
 import 'package:sinflix/core/entities/session_entity.dart';
 
 import '/core/data/base_data_source.dart';
+import '/features/dashboard/data/models/favorite_response_model.dart';
+import '/features/dashboard/data/models/movie_model.dart';
 import '../models/movie_response_model.dart';
 import 'movie_rest_api/movie_rest_api.dart';
 import 'movie_remote_data_source.dart';
@@ -15,8 +17,8 @@ class MovieRemoteDataSourceImpl extends BaseDataSource implements MovieRemoteDat
   });
 
   @override
-  Future<MoviesResponseModel?> list() async {
-    final response = await handleResponse(() => api.list(sessionEntity.bearerToken));
+  Future<MoviesResponseModel?> list({int page = 1}) async {
+    final response = await handleResponse(() => api.list(sessionEntity.bearerToken, page));
 
     if (response?.data != null) {
       return response!.data!;
@@ -26,18 +28,13 @@ class MovieRemoteDataSourceImpl extends BaseDataSource implements MovieRemoteDat
   }
 
   @override
-  Future<MoviesResponseModel?> favorites() async {
+  Future<List<MovieModel>?> favorites() async {
     final response = await handleResponse(() => api.favorites(sessionEntity.bearerToken));
-
-    if (response?.data != null) {
-      return response!.data!;
-    } else {
-      throw Exception('Favorites response is null');
-    }
+    return response?.data;
   }
 
   @override
-  Future<MoviesResponseModel?> favorite(String movieId) async {
+  Future<FavoriteResponseModel?> favorite(String movieId) async {
     final response = await handleResponse(() => api.favorite(sessionEntity.bearerToken, movieId));
 
     if (response?.data != null) {

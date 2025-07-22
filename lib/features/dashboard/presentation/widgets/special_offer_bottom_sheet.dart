@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:sinflix/core/colors.dart';
 import 'package:sinflix/core/extensions.dart';
 import 'package:sinflix/core/widgets/app_main_button.dart';
@@ -32,22 +33,6 @@ class SpecialOfferBottomSheet extends StatelessWidget {
         controller: scrollController,
         child: Stack(
           children: [
-            // Container(
-            //   height: 200,
-            //   width: double.infinity,
-            //   decoration: BoxDecoration(
-            //     gradient: RadialGradient(
-            //       colors: [
-            //         const Color(0xFF6F060B),
-            //         context.theme.scaffoldBackgroundColor,
-            //       ],
-            //       stops: [0.0, 0.7],
-            //       radius: 3,
-            //       focal: Alignment.topCenter,
-            //       focalRadius: .6,
-            //     ),
-            //   ),
-            // ),
             Padding(
               padding: const EdgeInsets.all(24),
               child: Column(
@@ -55,7 +40,7 @@ class SpecialOfferBottomSheet extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
-                    'Sınırlı Teklif',
+                    'special_offer.title'.tr(),
                     style: context.theme.textTheme.titleLarge?.copyWith(
                       color: Colors.white,
                     ),
@@ -86,7 +71,7 @@ class SpecialOfferBottomSheet extends StatelessWidget {
                         children: [
                           const Gap(10),
                           Text(
-                            'Alacağınız Bonuslar',
+                            'special_offer.bonuses_title'.tr(),
                             style: context.theme.textTheme.titleMedium?.copyWith(
                               color: Colors.white,
                             ),
@@ -97,10 +82,10 @@ class SpecialOfferBottomSheet extends StatelessWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                _buildBonus(context, AssetPaths.gemImg, 'Premium Hesap'),
-                                _buildBonus(context, AssetPaths.heartImg, 'Daha Fazla Eşleşme'),
-                                _buildBonus(context, AssetPaths.doubleHeartImg, 'Öne Çıkarma'),
-                                _buildBonus(context, AssetPaths.arrowImg, 'Daha Fazla Beğeni'),
+                                _buildBonus(context, AssetPaths.gemImg, 'special_offer.premium_account'.tr()),
+                                _buildBonus(context, AssetPaths.heartImg, 'special_offer.more_matches'.tr()),
+                                _buildBonus(context, AssetPaths.doubleHeartImg, 'special_offer.featured'.tr()),
+                                _buildBonus(context, AssetPaths.arrowImg, 'special_offer.more_likes'.tr()),
                               ],
                             ),
                           ),
@@ -110,7 +95,7 @@ class SpecialOfferBottomSheet extends StatelessWidget {
                   ),
                   const Gap(22),
                   Text(
-                    "Kilidi açmak için bir jeton paketi seçin",
+                    "special_offer.select_package".tr(),
                     style: context.textTheme.titleMedium,
                     textAlign: TextAlign.center,
                   ),
@@ -146,7 +131,7 @@ class SpecialOfferBottomSheet extends StatelessWidget {
                     ),
                   ),
                   const Gap(18),
-                  AppMainButton(context, onPressed: () {}, text: 'Tüm Jetonları Gör'),
+                  AppMainButton(context, onPressed: () {}, text: 'special_offer.view_all_tokens'.tr()),
                 ],
               ),
             ),
@@ -211,7 +196,6 @@ class SpecialOfferBottomSheet extends StatelessWidget {
                     radius: 1.8,
                     focal: Alignment.topLeft,
                     focalRadius: .5,
-                    // center: Alignment.topLeft,
                   ),
                 ),
                 child: Column(
@@ -243,7 +227,7 @@ class SpecialOfferBottomSheet extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            'Jeton',
+                            'special_offer.token'.tr(),
                             style: context.theme.textTheme.titleMedium?.copyWith(
                               color: Colors.white,
                             ),
@@ -252,8 +236,6 @@ class SpecialOfferBottomSheet extends StatelessWidget {
                         ],
                       ),
                     ),
-
-                    // const Gap(16),
                     Divider(
                       indent: 12,
                       endIndent: 12,
@@ -274,7 +256,7 @@ class SpecialOfferBottomSheet extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      'Başına haftalık',
+                      'special_offer.weekly_per_person'.tr(),
                       style: context.theme.textTheme.bodySmall?.copyWith(
                         color: Colors.white,
                       ),

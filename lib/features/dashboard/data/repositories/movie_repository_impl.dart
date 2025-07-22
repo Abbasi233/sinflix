@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:sinflix/features/dashboard/data/models/favorite_response_model.dart';
 import '/core/error/failures.dart';
 import '../../domain/entities/movie_entity.dart';
 import '../../domain/repositories/movie_repository.dart';
@@ -10,9 +11,9 @@ class MovieRepositoryImpl implements MovieRepository {
   MovieRepositoryImpl({required this.remoteDataSource});
 
   @override
-  Future<Either<Failure, List<MovieEntity>>> list() async {
+  Future<Either<Failure, List<MovieEntity>>> list({int page = 1}) async {
     try {
-      final response = await remoteDataSource.list();
+      final response = await remoteDataSource.list(page: page);
       if (response != null) {
         final entities = response.movies
             .map(
@@ -46,10 +47,10 @@ class MovieRepositoryImpl implements MovieRepository {
             .toList();
         return Right(entities);
       } else {
-        return const Left(ServerFailure('Veri alınamadı.'));
+        return const Left(NotFoundFailure('error.not_found_error_message'));
       }
     } catch (e) {
-      return Left(ServerFailure('Sunucu hatası: ${e.toString()}'));
+      return Left(ServerFailure(e.toString()));
     }
   }
 
@@ -58,7 +59,7 @@ class MovieRepositoryImpl implements MovieRepository {
     try {
       final response = await remoteDataSource.favorites();
       if (response != null) {
-        final entities = response.movies
+        final entities = response
             .map(
               (e) => MovieEntity(
                 id: e.id,
@@ -90,50 +91,24 @@ class MovieRepositoryImpl implements MovieRepository {
             .toList();
         return Right(entities);
       } else {
-        return const Left(ServerFailure('Favoriler alınamadı.'));
+        return const Left(NotFoundFailure('error.not_found_error_message'));
       }
     } catch (e) {
-      return Left(ServerFailure('Sunucu hatası: ${e.toString()}'));
+      return Left(ServerFailure(e.toString()));
     }
   }
 
   @override
-  Future<Either<Failure, MovieEntity?>> favorite(String movieId) async {
-    // try {
-    //   final response = await remoteDataSource.favorite(movieId);
-    //   if (response != null) {
-    //     return Right(MovieEntity(
-    //           id: response.id,
-    //           title: response.title,
-    //           year: response.year,
-    //           rated: response.rated,
-    //           released: response.released,
-    //           runtime: response.runtime,
-    //           genre: response.genre,
-    //           director: response.director,
-    //           writer: response.writer,
-    //           actors: response.actors,
-    //           plot: response.plot,
-    //           language: response.language,
-    //           country: response.country,
-    //           awards: response.awards,
-    //           poster: response.poster,
-    //           metascore: response.metascore,
-    //           imdbRating: response.imdbRating,
-    //           imdbVotes: response.imdbVotes,
-    //           imdbID: response.imdbID,
-    //           type: response.type,
-    //           response: response.response,
-    //           images: response.images,
-    //           comingSoon: response.comingSoon,
-    //           isFavorite: response.isFavorite,
-    //         ));
-    //     } else {
-    //     return const Left(ServerFailure('Favori işlemi başarısız.'));
-    //   }
-    // } catch (e) {
-    //   return Left(ServerFailure('Sunucu hatası: ${e.toString()}'));
-    // }
-    return const Left(ServerFailure('Favori işlemi başarısız.'));
+  Future<Either<Failure, bool>> favorite(String movieId) async {
+    try {
+      final response = await remoteDataSource.favorite(movieId);
+      if (response != null) {
+        return Right(response.action == ActionType.favorited);
+      } else {
+        return const Left(NotFoundFailure('error.not_found_error_message'));
+      }
+    } catch (e) {
+      return Left(ServerFailure('Sunucu hatası: ${e.toString()}'));
+    }
   }
 }

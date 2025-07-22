@@ -61,12 +61,32 @@
         "title": "Profile Details",
         "limited_offer": "Limited Offer",
         "add_photo": "Add Photo",
-        "favorite_movies": "My Favorite Movies"
+        "favorite_movies": "My Favorite Movies",
+        "no_favorites": "You haven't added any favorite movies yet"
+    },
+    "special_offer": {
+        "title": "Limited Offer",
+        "description": "Choose your token package to earn bonuses and unlock new episodes!",
+        "bonuses_title": "Bonuses You'll Get",
+        "premium_account": "Premium Account",
+        "more_matches": "More Matches",
+        "featured": "Featured",
+        "more_likes": "More Likes",
+        "select_package": "Select a token package to unlock",
+        "view_all_tokens": "View All Tokens",
+        "token": "Token",
+        "weekly_per_person": "Weekly per person"
     },
     "upload_photo": {
         "title": "Upload Your Photos",
         "desc": "Resources out incentivize relaxation floor loss cc.",
         "continue": "Continue",
         "success_message": "Photo uploaded successfully"
+    },
+    "settings": {
+        "title": "Settings",
+        "language": "Language",
+        "theme": "Theme",
+        "logout": "Logout"
     }
 }

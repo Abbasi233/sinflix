@@ -7,9 +7,17 @@ abstract class MovieEvent extends Equatable {
 }
 
 class FetchMoviesEvent extends MovieEvent {
-  const FetchMoviesEvent();
+  final int page;
+  const FetchMoviesEvent({this.page = 1});
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [page];
+}
+
+class LoadMoreMoviesEvent extends MovieEvent {
+  final int page;
+  const LoadMoreMoviesEvent(this.page);
+  @override
+  List<Object?> get props => [page];
 }
 
 class FetchFavoritesEvent extends MovieEvent {

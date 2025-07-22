@@ -61,12 +61,32 @@
         "title": "Profil Detayı",
         "limited_offer": "Sınırlı Teklif",
         "add_photo": "Fotoğraf Ekle",
-        "favorite_movies": "Beğendiğim Filmler"
+        "favorite_movies": "Beğendiğim Filmler",
+        "no_favorites": "Henüz favoriye aldığınız bir film yok"
+    },
+    "special_offer": {
+        "title": "Sınırlı Teklif",
+        "description": "Jeton paketin'ni seçerek bonus kazanın ve yeni bölümlerin kilidini açın!",
+        "bonuses_title": "Alacağınız Bonuslar",
+        "premium_account": "Premium Hesap",
+        "more_matches": "Daha Fazla Eşleşme",
+        "featured": "Öne Çıkarma",
+        "more_likes": "Daha Fazla Beğeni",
+        "select_package": "Kilidi açmak için bir jeton paketi seçin",
+        "view_all_tokens": "Tüm Jetonları Gör",
+        "token": "Jeton",
+        "weekly_per_person": "Başına haftalık"
     },
     "upload_photo": {
         "title": "Fotoğraflarınızı Yükleyin",
         "desc": "Resources out incentivize relaxation floor loss cc.",
         "continue": "Devam Et",
         "success_message": "Fotoğraf başarıyla yüklendi"
+    },
+    "settings": {
+        "title": "Ayarlar",
+        "language": "Dil",
+        "theme": "Tema",
+        "logout": "Çıkış Yap"
     }
 }

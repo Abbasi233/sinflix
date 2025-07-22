@@ -87,6 +87,53 @@ class LoginRouteArgs {
 }
 
 /// generated route for
+/// [MovieDetailPage]
+class MovieDetailRoute extends PageRouteInfo<MovieDetailRouteArgs> {
+  MovieDetailRoute({
+    Key? key,
+    required MovieEntity movie,
+    List<PageRouteInfo>? children,
+  }) : super(
+         MovieDetailRoute.name,
+         args: MovieDetailRouteArgs(key: key, movie: movie),
+         initialChildren: children,
+       );
+
+  static const String name = 'MovieDetailRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<MovieDetailRouteArgs>();
+      return MovieDetailPage(key: args.key, movie: args.movie);
+    },
+  );
+}
+
+class MovieDetailRouteArgs {
+  const MovieDetailRouteArgs({this.key, required this.movie});
+
+  final Key? key;
+
+  final MovieEntity movie;
+
+  @override
+  String toString() {
+    return 'MovieDetailRouteArgs{key: $key, movie: $movie}';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! MovieDetailRouteArgs) return false;
+    return key == other.key && movie == other.movie;
+  }
+
+  @override
+  int get hashCode => key.hashCode ^ movie.hashCode;
+}
+
+/// generated route for
 /// [ProfilePage]
 class ProfileRoute extends PageRouteInfo<void> {
   const ProfileRoute({List<PageRouteInfo>? children})

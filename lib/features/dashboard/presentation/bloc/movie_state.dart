@@ -12,10 +12,21 @@ class MovieLoading extends MovieState {}
 
 class MoviesLoaded extends MovieState {
   final List<MovieEntity> movies;
-  const MoviesLoaded(this.movies);
+  final int page;
+  final bool isLoadingMore;
+  const MoviesLoaded(this.movies, {this.page = 1, this.isLoadingMore = false});
   @override
-  List<Object?> get props => [movies];
+  List<Object?> get props => [movies, page, isLoadingMore];
 }
+
+class MovieError extends MovieState {
+  final String message;
+  const MovieError(this.message);
+  @override
+  List<Object?> get props => [message];
+}
+
+class FavoritesLoading extends MovieState {}
 
 class FavoritesLoaded extends MovieState {
   final List<MovieEntity> favorites;
@@ -25,15 +36,23 @@ class FavoritesLoaded extends MovieState {
 }
 
 class MovieFavorited extends MovieState {
-  final MovieEntity? movie;
-  const MovieFavorited(this.movie);
+  final List<MovieEntity> movies;
+  final String movieId;
+  final bool isFavorited;
+  const MovieFavorited(this.movies, this.movieId, this.isFavorited);
   @override
-  List<Object?> get props => [movie];
+  List<Object?> get props => [movies, movieId, isFavorited];
 }
 
-class MovieError extends MovieState {
+class FavoritesNotFound extends MovieState {
+  const FavoritesNotFound();
+  @override
+  List<Object?> get props => [];
+}
+
+class FavoritesError extends MovieState {
   final String message;
-  const MovieError(this.message);
+  const FavoritesError(this.message);
   @override
   List<Object?> get props => [message];
 }
